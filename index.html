@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>
   :root{
@@ -1327,6 +1329,18 @@ async function boot(){
   const c=await sget(compKey(curDay));if(c)completion[curDay]=c;
   setGoalTag();render();
 }
-let rzT;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>render(),250);});
+// Re-render only on a genuine WIDTH change (orientation flip / desktop resize).
+// Mobile browsers fire 'resize' constantly while scrolling (address bar shows/
+// hides) and when the on-screen keyboard opens for an input. Re-rendering on
+// those events reset the scroll position and destroyed the field being typed in.
+let rzT, lastVW = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === lastVW) return;            // height-only change → ignore
+  const ae = document.activeElement;                   // don't yank a focused field
+  if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) { lastVW = window.innerWidth; return; }
+  lastVW = window.innerWidth;
+  clearTimeout(rzT);
+  rzT = setTimeout(() => { lastVW = window.innerWidth; render(); }, 250);
+});
 boot();
 </script>
