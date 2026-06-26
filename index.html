@@ -769,7 +769,21 @@ restbar.querySelectorAll('.adj').forEach(b=>b.onclick=()=>{restLeft=Math.max(5,r
 const content=document.getElementById('content');
 function compKey(day){return 'fb_done_'+todayStr()+'_'+day;}
 
+let pendingRender=false;
+// Public render(): guards the full DOM rebuild. Background triggers (GitHub
+// sync finishing, window resize) must NOT tear down the page while the user is
+// typing in a field, and scroll position must survive any rebuild.
 function render(){
+  const ae=document.activeElement;
+  if(ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)){ pendingRender=true; return; }
+  pendingRender=false;
+  const sx=window.scrollX, sy=window.scrollY;
+  _render();
+  // Explicit window.scrollTo() in callers (tab switch, bodyweight log) runs
+  // after this returns and intentionally overrides this restore.
+  window.scrollTo(sx, sy);
+}
+function _render(){
   if(cTimer){clearInterval(cTimer);cTimer=null;}
   if(runTimer){clearInterval(runTimer);runTimer=null;}
   figs=[]; // reset animations
@@ -1293,7 +1307,7 @@ async function syncToGitHub(){
       else if(res.status!==404){ throw new Error('GET '+res.status); }
       const merged=mergeData(gatherData(),remote);
       const body=JSON.stringify(merged);
-      if(remote && JSON.stringify(remote)===body){ adoptData(merged); if(stat)stat.textContent='Up to date ✓'; render(); return; }
+      if(remote && JSON.stringify(remote)===body){ adoptData(merged); if(stat)stat.textContent='Up to date ✓'; return; } // nothing changed — no rebuild needed
       const content=btoa(unescape(encodeURIComponent(body)));
       const pRes=await fetch(url,{method:'PUT',headers,body:JSON.stringify({message:'Sync repboard data',content,sha})});
       if(pRes.ok){ adoptData(merged); if(stat)stat.textContent='Synced ✓ '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); render(); return; }
@@ -1341,6 +1355,15 @@ window.addEventListener('resize', () => {
   lastVW = window.innerWidth;
   clearTimeout(rzT);
   rzT = setTimeout(() => { lastVW = window.innerWidth; render(); }, 250);
+});
+// When the user leaves a field, run any rebuild that was deferred while they
+// were typing (e.g. a GitHub sync that completed mid-entry).
+document.addEventListener('focusout', () => {
+  if (!pendingRender) return;
+  setTimeout(() => {
+    const ae = document.activeElement;
+    if (pendingRender && !(ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))) render();
+  }, 80);
 });
 boot();
 </script>
