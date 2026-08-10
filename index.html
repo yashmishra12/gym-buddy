@@ -61,6 +61,13 @@
   .cue{color:var(--muted);font-size:12.5px;line-height:1.45;padding:2px 14px 0}
   .demo{display:inline-flex;align-items:center;gap:5px;color:var(--teal);font-size:12px;font-weight:650;text-decoration:none;padding:8px 14px 2px}
   .demo:active{opacity:.7}
+  .notes-toggle{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;font-weight:650;background:transparent;border:0;cursor:pointer;padding:9px 14px 2px;width:100%;text-align:left}
+  .notes-toggle .car{display:inline-block;transition:.15s;font-size:10px}
+  .notes-toggle.open .car{transform:rotate(90deg)}
+  .ndot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);margin-left:2px}
+  .notes-box{display:none;padding:6px 14px 2px}
+  .notes-box.open{display:block}
+  .notes-box textarea{width:100%;min-height:60px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font-size:12.5px;line-height:1.4;padding:9px 10px;resize:vertical;font-family:var(--sans);outline:none}
   /* sets row */
   .sets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px 14px}
   .setdot{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel2);
@@ -138,6 +145,7 @@
   .btn:active{transform:scale(.97)}
   .btn.primary{background:var(--amber);color:#241400;border-color:var(--amber)}
   .btn.ghost{background:transparent}
+  .btn.pos{background:var(--teal);color:#06231e;border-color:var(--teal)}
   /* rest overlay (sticky bottom) */
   #restbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;background:linear-gradient(180deg,rgba(19,21,26,0),var(--bg) 24%);padding:10px 14px 16px;max-width:560px;margin:0 auto}
   #restbar .inner{background:var(--panel);border:1px solid var(--amber-d);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
@@ -165,8 +173,8 @@
   .scale{display:flex;justify-content:space-between;color:var(--muted);font-size:10.5px;margin-bottom:14px}
   .spark{width:100%;height:90px;display:block;margin:6px 0 12px}
   .logrow{display:flex;gap:8px}
-  .logrow .wbox{flex:1}
-  .logrow input{flex:1;text-align:left;width:auto}
+  .logrow .wbox{flex:1;min-width:0}
+  .logrow input{flex:1;text-align:left;width:auto;min-width:0}
   .logrow .btn{flex:0 0 96px;padding:0;height:auto}
   .empty{color:var(--muted);font-size:12.5px;text-align:center;padding:10px 0}
   .streakpanel{padding:15px 16px}
@@ -178,12 +186,14 @@
   .markbtn.on{background:var(--teal);border-color:var(--teal);color:#06231e}
   .markbtn:active{transform:scale(.96)}
   .sweek{display:flex;gap:6px;margin-bottom:13px}
-  .sd{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .sd{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
   .sd span{font-size:10px;font-weight:800;color:var(--muted)}
   .sd i{width:100%;height:9px;border-radius:99px;background:var(--panel2);border:1px solid var(--line)}
   .sd.hit i{background:linear-gradient(90deg,var(--teal),var(--amber));border-color:transparent}
   .sd.td span{color:var(--ink)}
   .sd.td i{box-shadow:0 0 0 2px var(--amber)}
+  .sd:active i{opacity:.7}
+  .sd.fut{cursor:default;opacity:.4;pointer-events:none}
   .swkrow{display:flex;align-items:center;gap:10px;margin-bottom:9px}
   .pbar2{flex:1;height:7px;border-radius:99px;background:var(--panel2);overflow:hidden}
   .pbar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:99px;transition:width .35s}
@@ -430,7 +440,8 @@ function streakCount(){if(!workoutDays.length)return 0;const days=[...new Set(wo
   if(daysBetween(days[days.length-1],todayStr())>3)return 0;let s=1;
   for(let i=days.length-1;i>0;i--){if(daysBetween(days[i],days[i-1])<=3)s++;else break;}return s;}
 function markToday(){const d=todayStr();if(!workoutDays.includes(d)){workoutDays.push(d);sset('fb_wdays',workoutDays);refreshStreak();}}
-function toggleToday(){const d=todayStr();const i=workoutDays.indexOf(d);if(i>=0)workoutDays.splice(i,1);else workoutDays.push(d);sset('fb_wdays',workoutDays);refreshStreak();}
+function toggleDay(d){const i=workoutDays.indexOf(d);if(i>=0)workoutDays.splice(i,1);else workoutDays.push(d);sset('fb_wdays',workoutDays);refreshStreak();}
+function toggleToday(){toggleDay(todayStr());}
 // daily run (distance covered in a fixed time) — own key: fb_runs, stored canonically in miles
 const RUN_MIN=10;
 let runLog=[];            // [{d, mi}]
@@ -450,10 +461,15 @@ function firstW(name){const h=histOf(name);return h.length?h[0].kg:undefined;}
 function bestW(name){const h=histOf(name);return h.length?Math.max(...h.map(x=>x.kg)):undefined;}
 function logW(name,kg){const d=todayStr();const h=exHist[name]=exHist[name]||[];const e=h.find(x=>x.d===d);if(e)e.kg=kg;else h.push({d,kg});sset('fb_exhist',exHist);}
 function delW(name,d){if(exHist[name])exHist[name]=exHist[name].filter(x=>x.d!==d);sset('fb_exhist',exHist);}
+// per-exercise setup notes (equipment settings, seat height, pin position, etc.)
+function getNote(name){return exNotes[name]||'';}
+function setNote(name,v){if(v)exNotes[name]=v;else delete exNotes[name];sset('fb_exnotes',exNotes);}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 let settings={rest:75,sound:true,units:'lb',bwUnits:'kg',distUnits:'mi',ghRepo:'',ghToken:''};
 const BW_START=75.3, BW_GOAL=69; // bodyweight baseline & goal (kg)
 let exHist={};             // name -> [{d:'YYYY-MM-DD', kg}] history
+let exNotes={};            // name -> free-text setup notes (own key: fb_exnotes)
 let bwLog=[];              // [{d, kg}]
 let workoutDays=[];        // YYYY-MM-DD dates a workout was done (own key: fb_wdays)
 const WEEK_GOAL=5;
@@ -846,9 +862,18 @@ function renderStrength(plan){
       </div>
       <div class="cue">${e.cue}</div>
       <a class="demo" target="_blank" rel="noopener" href="${yt(e.q+' tutorial')}">▶ Watch demo</a>
+      <button class="notes-toggle"><span class="car">▸</span> Setup notes${getNote(e.name)?'<span class="ndot"></span>':''}</button>
+      <div class="notes-box"><textarea placeholder="Seat height, pin position, incline, resistance…">${esc(getNote(e.name))}</textarea></div>
       <div class="sets" data-ex="${e.id}"></div>`;
     content.appendChild(card);
     registerFig(card.querySelector('canvas'),e.pat);
+
+    // setup notes: collapsible, free-text, saved per exercise name
+    const ntoggle=card.querySelector('.notes-toggle'),nbox=card.querySelector('.notes-box'),ntext=nbox.querySelector('textarea');
+    ntoggle.onclick=()=>{const open=nbox.classList.toggle('open');ntoggle.classList.toggle('open',open);};
+    let noteT=null;
+    ntext.oninput=()=>{clearTimeout(noteT);noteT=setTimeout(()=>setNote(e.name,ntext.value),400);};
+    ntext.onblur=()=>{clearTimeout(noteT);setNote(e.name,ntext.value);ntoggle.innerHTML=`<span class="car">▸</span> Setup notes${getNote(e.name)?'<span class="ndot"></span>':''}`;ntoggle.classList.toggle('open',nbox.classList.contains('open'));};
 
     // sets row
     const row=card.querySelector('.sets');
@@ -871,7 +896,7 @@ function renderStrength(plan){
       const wb=document.createElement('div');
       const lastV=lastW(e.name);
       const fillV=lastV!=null?lastV:(e.start!=null?e.start:null);
-      wb.innerHTML=`<div class="wbox"><label>${unit()}</label><input type="number" inputmode="decimal" placeholder="–" value="${fillV!=null?fmtW(fillV):''}"><button class="wlog">Log</button></div>`;
+      wb.innerHTML=`<div class="wbox"><label>${unit()}</label><input type="text" inputmode="decimal" placeholder="–" value="${fillV!=null?fmtW(fillV):''}"><button class="wlog">Log</button></div>`;
       const inp=wb.querySelector('input');
       const commit=()=>{const v=parseFloat(inp.value);if(isNaN(v))return;logW(e.name,fromDisp(v));refreshGrowth(card,e);buzz(15);};
       inp.onchange=commit; wb.querySelector('.wlog').onclick=commit;
@@ -1049,7 +1074,8 @@ function refreshStreak(){
   const streak=streakCount();const todayDone=done.has(todayStr());
   const pct=Math.min(100,wkCount/WEEK_GOAL*100);
   const dotrow=wk.map(d=>{const dn=['M','T','W','T','F','S','S'][(parseD(d).getUTCDay()+6)%7];
-    return `<div class="sd ${done.has(d)?'hit':''} ${d===todayStr()?'td':''}"><span>${dn}</span><i></i></div>`;}).join('');
+    const fut=parseD(d)>parseD(todayStr());
+    return `<div class="sd ${done.has(d)?'hit':''} ${d===todayStr()?'td':''} ${fut?'fut':''}" data-d="${d}"><span>${dn}</span><i></i></div>`;}).join('');
   let msg;
   if(wkCount>=WEEK_GOAL)msg='Goal smashed this week — keep the fire going. 🔥';
   else if(todayDone)msg=`Logged today. ${WEEK_GOAL-wkCount} more this week to hit your goal.`;
@@ -1057,12 +1083,22 @@ function refreshStreak(){
   c.innerHTML=`
     <div class="streaktop">
       <div class="flame"><div class="fnum">${streak}</div><div class="flbl">🔥 day${streak===1?'':'s'}<br>streak</div></div>
-      <button class="markbtn ${todayDone?'on':''}" id="markday">${todayDone?'✓ Trained today':'Mark today'}</button>
+      <div style="display:flex;gap:6px">
+        <button class="markbtn ${todayDone?'on':''}" id="markday">${todayDone?'✓ Trained today':'Mark today'}</button>
+        <button class="markbtn" id="markother">+ Day</button>
+      </div>
     </div>
     <div class="sweek">${dotrow}</div>
     <div class="swkrow"><div class="pbar2"><i style="width:${pct}%"></i></div><span class="swkn">${wkCount}/${WEEK_GOAL}</span></div>
-    <div class="smsg">${msg}</div>`;
+    <div class="smsg">${msg}</div>
+    <input type="date" id="daypick" max="${todayStr()}" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0">`;
   const mb=c.querySelector('#markday');if(mb)mb.onclick=()=>toggleToday();
+  c.querySelectorAll('.sd').forEach(el=>{el.onclick=()=>toggleDay(el.dataset.d);});
+  const mo=c.querySelector('#markother'),dp=c.querySelector('#daypick');
+  if(mo&&dp){
+    mo.onclick=()=>{try{dp.showPicker?dp.showPicker():dp.click();}catch(e){dp.click();}};
+    dp.onchange=()=>{if(dp.value)toggleDay(dp.value);};
+  }
 }
 let runTimer=null;
 function renderRunCard(){
@@ -1076,16 +1112,16 @@ function renderRunCard(){
       <div class="runfig"><canvas></canvas></div>
       <div class="runtimer">
         <div class="rclock" id="rclock">${fmt(RUN_MIN*60)}</div>
-        <div class="rbtns"><button class="btn primary" id="rstart">Start</button><button class="btn ghost" id="rreset">Reset</button></div>
+        <div class="rbtns"><button class="btn primary" id="rstart">Start</button><button class="btn pos" id="rdone">Done</button><button class="btn ghost" id="rreset">Reset</button></div>
       </div>
     </div>
     <div class="runlog">
-      <div class="wbox"><label>${distUnit()}</label><input id="runin" type="number" inputmode="decimal" placeholder="–" value="${last!=null?fmtDist(last):''}"><button class="wlog" id="runlogbtn">Log</button></div>
+      <div class="wbox"><label>${distUnit()}</label><input id="runin" type="text" inputmode="decimal" placeholder="–" value="${last!=null?fmtDist(last):''}"><button class="wlog" id="runlogbtn">Log</button></div>
       <div class="runstats" id="runstats"></div>
     </div>
     <canvas class="runspark" id="runspark"></canvas>`;
   registerFig(card.querySelector('.runfig canvas'),'run');
-  const rclock=card.querySelector('#rclock'),rstart=card.querySelector('#rstart'),rreset=card.querySelector('#rreset');
+  const rclock=card.querySelector('#rclock'),rstart=card.querySelector('#rstart'),rreset=card.querySelector('#rreset'),rdone=card.querySelector('#rdone');
   let left=RUN_MIN*60,running=false;
   const tick=()=>{left--;rclock.textContent=fmt(left);if(left<=3&&left>0)beep(700,.08);
     if(left<=0){clearInterval(runTimer);running=false;endChime();rstart.textContent='Start';rstart.classList.add('primary');rclock.textContent='0:00';}};
@@ -1093,6 +1129,15 @@ function renderRunCard(){
     running=!running;rstart.textContent=running?'Pause':'Start';rstart.classList.toggle('primary',!running);
     if(running){beep(880,.1);runTimer=setInterval(tick,1000);}else clearInterval(runTimer);};
   rreset.onclick=()=>{clearInterval(runTimer);running=false;left=RUN_MIN*60;rclock.textContent=fmt(left);rstart.textContent='Start';rstart.classList.add('primary');};
+  // "Done" skips the in-app timer entirely — for whenever the treadmill's own display is used instead.
+  rdone.onclick=()=>{
+    clearInterval(runTimer);running=false;left=RUN_MIN*60;rclock.textContent=fmt(left);
+    rstart.textContent='Start';rstart.classList.add('primary');
+    const v=parseFloat(card.querySelector('#runin').value);
+    const last2=lastRun();
+    logRun(!isNaN(v)?distFromDisp(v):(last2!=null?last2:0));
+    markToday();endChime();refreshRunStats(card);
+  };
   card.querySelector('#runlogbtn').onclick=()=>{const v=parseFloat(card.querySelector('#runin').value);if(isNaN(v))return;logRun(distFromDisp(v));refreshRunStats(card);buzz(15);};
   refreshRunStats(card);
 }
@@ -1118,7 +1163,7 @@ function appendTracker(){
     <div class="scale"><span>${fmtBW(start)}</span><span>${fmtBW(goal)} ${bwUnit()}</span></div>
     <canvas class="spark" id="spark"></canvas>
     <div class="logrow">
-      <div class="wbox" style="flex:1"><label>today</label><input id="bwin" type="number" inputmode="decimal" placeholder="${fmtBW(latest)}" style="text-align:left;width:auto;flex:1"><span class="u">${bwUnit()}</span></div>
+      <div class="wbox" style="flex:1"><label>today</label><input id="bwin" type="text" inputmode="decimal" placeholder="${fmtBW(latest)}" style="text-align:left;width:auto;flex:1"><span class="u">${bwUnit()}</span></div>
       <button class="btn primary" id="bwsave" style="flex:0 0 92px">Log</button>
     </div>`;
   content.appendChild(p);
@@ -1230,7 +1275,7 @@ document.querySelectorAll('#bwunitseg .useg').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('#distunitseg .useg').forEach(b=>b.onclick=()=>{
   settings.distUnits=b.dataset.u;sset('fb_set',settings);syncSettings();render();});
 // Backup / Restore
-function gatherData(){const {ghToken,ghRepo,...safe}=settings;return {app:'repboard',v:1,exHist,bwLog,settings:safe,cardioBlocks,workoutDays,runLog};}
+function gatherData(){const {ghToken,ghRepo,...safe}=settings;return {app:'repboard',v:1,exHist,exNotes,bwLog,settings:safe,cardioBlocks,workoutDays,runLog};}
 document.getElementById('expbtn').onclick=()=>{
   const data=JSON.stringify(gatherData());
   const bb=document.getElementById('backupbox');
@@ -1251,12 +1296,13 @@ document.getElementById('applyimport').onclick=()=>{
   try{
     const d=JSON.parse(bb.value.trim());
     if(d.exHist)exHist=d.exHist;
+    if(d.exNotes)exNotes=d.exNotes;
     if(d.bwLog)bwLog=d.bwLog;
     if(d.settings)settings=Object.assign(settings,d.settings);
     if(d.cardioBlocks)cardioBlocks=d.cardioBlocks;
     if(d.workoutDays)workoutDays=d.workoutDays;
     if(d.runLog)runLog=d.runLog;
-    sset('fb_exhist',exHist);sset('fb_bw',bwLog);sset('fb_set',settings);
+    sset('fb_exhist',exHist);sset('fb_exnotes',exNotes);sset('fb_bw',bwLog);sset('fb_set',settings);
     sset('fb_wdays',workoutDays);sset('fb_runs',runLog);
     for(const k in cardioBlocks)sset('fb_cardio_'+k,cardioBlocks[k]);
     document.getElementById('storemode').textContent='Restored ✓';
@@ -1279,6 +1325,7 @@ function mergeData(local,remote){
   names.forEach(n=>{eh[n]=mergeLog((local.exHist||{})[n],(remote.exHist||{})[n]);});
   return {app:'repboard',v:1,
     exHist:eh,
+    exNotes:Object.assign({},remote.exNotes||{},local.exNotes||{}),
     bwLog:mergeLog(local.bwLog,remote.bwLog),
     runLog:mergeLog(local.runLog,remote.runLog),
     workoutDays:[...new Set([...(remote.workoutDays||[]),...(local.workoutDays||[])])].sort(),
@@ -1286,10 +1333,10 @@ function mergeData(local,remote){
     settings:Object.assign({},remote.settings||{},local.settings||{})};
 }
 function adoptData(d){
-  if(d.exHist)exHist=d.exHist; if(d.bwLog)bwLog=d.bwLog; if(d.runLog)runLog=d.runLog;
+  if(d.exHist)exHist=d.exHist; if(d.exNotes)exNotes=d.exNotes; if(d.bwLog)bwLog=d.bwLog; if(d.runLog)runLog=d.runLog;
   if(d.workoutDays)workoutDays=d.workoutDays; if(d.cardioBlocks)cardioBlocks=d.cardioBlocks;
   if(d.settings){const tok=settings.ghToken,rep=settings.ghRepo;settings=Object.assign(settings,d.settings);settings.ghToken=tok;settings.ghRepo=rep;}
-  sset('fb_exhist',exHist);sset('fb_bw',bwLog);sset('fb_runs',runLog);sset('fb_wdays',workoutDays);sset('fb_set',settings);
+  sset('fb_exhist',exHist);sset('fb_exnotes',exNotes);sset('fb_bw',bwLog);sset('fb_runs',runLog);sset('fb_wdays',workoutDays);sset('fb_set',settings);
   for(const k in cardioBlocks)sset('fb_cardio_'+k,cardioBlocks[k]);
 }
 async function syncToGitHub(){
@@ -1327,6 +1374,7 @@ async function boot(){
   const h=await sget('fb_exhist');
   if(h)exHist=h;
   else{const oldw=await sget('fb_exw');if(oldw){const d=todayStr();for(const k in oldw)exHist[k]=[{d,kg:oldw[k]}];sset('fb_exhist',exHist);}}
+  const nt=await sget('fb_exnotes');if(nt)exNotes=nt;
   for(const d of ['tue','sun']){const cb=await sget('fb_cardio_'+d);if(cb&&cb.length)cardioBlocks[d]=cb;}
   const b=await sget('fb_bw');if(b&&b.length)bwLog=b;
   const wd=await sget('fb_wdays');if(wd&&wd.length)workoutDays=wd;
@@ -1355,6 +1403,21 @@ window.addEventListener('resize', () => {
   lastVW = window.innerWidth;
   clearTimeout(rzT);
   rzT = setTimeout(() => { lastVW = window.innerWidth; render(); }, 250);
+});
+// Weight/distance inputs are pre-filled with the last logged value. Browsers
+// often land the caret at position 0 on focus (these are right-aligned, so
+// tapping the empty space left of the digits snaps the caret before them),
+// which makes appending or backspacing awkward — push a merely-collapsed
+// caret to the end. A deliberate selection (double-tap / triple-click
+// select-all) is left alone so replacing the whole number still works.
+document.addEventListener('focusin', e => {
+  const t = e.target;
+  if (t.tagName !== 'INPUT' || t.getAttribute('inputmode') !== 'decimal') return;
+  setTimeout(() => {
+    const v = t.value;
+    if (!v || t.selectionStart !== t.selectionEnd) return;
+    try { t.setSelectionRange(v.length, v.length); } catch (err) {}
+  }, 0);
 });
 // When the user leaves a field, run any rebuild that was deferred while they
 // were typing (e.g. a GitHub sync that completed mid-entry).
