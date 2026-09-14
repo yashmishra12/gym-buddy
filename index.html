@@ -91,6 +91,11 @@
   #histsheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(0,0,0,.55);align-items:flex-end}
   #histsheet .s{width:100%;max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px 26px;max-height:88vh;overflow:auto}
   #histsheet h3{margin:0 0 2px;font-size:18px}
+  #measuresheet{position:fixed;inset:0;z-index:65;display:none;background:rgba(0,0,0,.55);align-items:flex-end}
+  #measuresheet .s{width:100%;max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px calc(26px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  #measuresheet h3{margin:0 0 2px;font-size:18px}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 14px}
+  .mgrid .wbox input{width:auto;flex:1;text-align:left}
   .hstats{display:flex;gap:8px;margin:2px 0 14px}
   .hstats>div{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:9px 6px;text-align:center}
   .hstats span{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
@@ -104,48 +109,22 @@
   .last{display:block;color:var(--muted);font-size:10px;margin-top:3px;text-align:right;letter-spacing:.03em}
   .restbtn{background:var(--amber);color:#241400;border:0;border-radius:12px;height:42px;padding:0 14px;font-weight:800;font-size:12.5px;letter-spacing:.04em;cursor:pointer}
   .restbtn:active{transform:scale(.95)}
-  /* cardio block */
-  .cardio{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:14px 0}
-  .cfig{height:150px;background:
-      repeating-linear-gradient(0deg,transparent 0 19px,rgba(255,255,255,.025) 19px 20px),
-      repeating-linear-gradient(90deg,transparent 0 19px,rgba(255,255,255,.025) 19px 20px),
-      radial-gradient(120% 120% at 40% 15%,#262b34,#1a1d24);
-    border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden;margin-bottom:14px}
-  .cfig canvas{position:absolute;inset:0;width:100%;height:100%}
-  .modes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-  .mode{flex:1;min-width:64px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:10px;padding:9px 0;font-size:11.5px;font-weight:700;cursor:pointer;text-align:center}
-  .mode.on{background:var(--ink);color:#111;border-color:var(--ink)}
-  .circuit{display:flex;flex-direction:column;gap:8px;margin:16px 0 4px}
-  .brow{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;transition:.15s}
-  .brow.on{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}
-  .brow.done{opacity:.5}
-  .brow .num{width:22px;height:22px;border-radius:7px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--muted);flex:0 0 auto}
-  .brow.on .num{background:var(--amber);color:#241400;border-color:var(--amber)}
-  .brow .bmach{flex:1;min-width:0;text-align:left;background:transparent;border:0;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;padding:4px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .brow .bmach:disabled{cursor:default}
-  .brow .bmach .car{color:var(--muted);font-size:11px;margin-left:4px}
-  .bdur{display:flex;align-items:center;gap:6px;flex:0 0 auto}
-  .bdur button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-weight:800;cursor:pointer;line-height:1}
-  .bdur button:disabled{opacity:.3;cursor:default}
-  .bdur b{min-width:44px;text-align:center;font-variant-numeric:tabular-nums;font-weight:800;font-size:14px}
-  .bdur b small{font-weight:600;color:var(--muted);font-size:10px}
-  .brow .bx{width:28px;height:28px;border:0;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;flex:0 0 auto}
-  .brow .bx:disabled{opacity:.25;cursor:default}
-  .brow .bx:active{color:var(--bad)}
-  .addblock{width:100%;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:12px;padding:11px;font-weight:700;font-size:13px;cursor:pointer;margin-top:2px}
-  .addblock:active{transform:scale(.98)}
-  .addblock:disabled{opacity:.3;cursor:default}
-  .bigtimer{text-align:center;padding:6px 0 4px}
-  .bigtimer .phase{font-size:13px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);height:18px}
-  .bigtimer .clock{font-size:62px;font-weight:850;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
-  .bigtimer .sub{color:var(--muted);font-size:12.5px;margin-top:6px}
-  .controls{display:flex;gap:8px;margin-top:14px}
+  /* cardio cards (one per machine, same shell as strength cards) */
+  /* the timer is a secondary tool — Done is what you actually tap at the gym */
+  .ctimer{display:flex;align-items:center;gap:8px;padding:12px 14px 0}
+  .ctclock{font-size:19px;font-weight:850;font-variant-numeric:tabular-nums;color:var(--muted);min-width:52px;line-height:1}
+  .ctphase{flex:1;min-width:0;font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+  .tbtn{border:1px solid var(--line);background:var(--panel2);color:var(--muted);font-weight:700;font-size:11.5px;border-radius:9px;padding:7px 12px;cursor:pointer;flex:0 0 auto}
+  .tbtn.on{background:var(--amber);color:#241400;border-color:var(--amber)}
+  .tbtn:active{transform:scale(.95)}
+  .donebig{display:block;width:calc(100% - 28px);margin:12px 14px 0;padding:16px;border:0;border-radius:12px;
+    background:var(--teal);color:#06231e;font-weight:800;font-size:14.5px;letter-spacing:.03em;cursor:pointer}
+  .donebig.on{background:transparent;border:1px solid var(--teal-d);color:var(--teal)}
+  .donebig:active{transform:scale(.99)}
   .btn{flex:1;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
     padding:13px 0;font-weight:800;font-size:13px;letter-spacing:.04em;cursor:pointer}
   .btn:active{transform:scale(.97)}
   .btn.primary{background:var(--amber);color:#241400;border-color:var(--amber)}
-  .btn.ghost{background:transparent}
-  .btn.pos{background:var(--teal);color:#06231e;border-color:var(--teal)}
   /* rest overlay (sticky bottom) */
   #restbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;background:linear-gradient(180deg,rgba(19,21,26,0),var(--bg) 24%);padding:10px 14px 16px;max-width:560px;margin:0 auto}
   #restbar .inner{background:var(--panel);border:1px solid var(--amber-d);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
@@ -199,25 +178,6 @@
   .pbar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:99px;transition:width .35s}
   .swkn{font-size:12.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
   .smsg{font-size:12px;color:var(--muted);line-height:1.45}
-  .runpanel{padding:15px 16px}
-  .runhead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
-  .runhead h2{margin:0;font-size:16px}
-  .runhead .runsub{color:var(--muted);font-size:11.5px;font-weight:600}
-  .runbody{display:flex;gap:12px;align-items:stretch;margin-bottom:12px}
-  .runfig{flex:0 0 116px;height:96px;background:
-      repeating-linear-gradient(0deg,transparent 0 17px,rgba(255,255,255,.025) 17px 18px),
-      repeating-linear-gradient(90deg,transparent 0 17px,rgba(255,255,255,.025) 17px 18px),
-      radial-gradient(120% 120% at 30% 20%,#262b34,#1a1d24);
-    border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden}
-  .runfig canvas{position:absolute;inset:0;width:100%;height:100%}
-  .runtimer{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
-  .rclock{font-size:40px;font-weight:850;font-variant-numeric:tabular-nums;text-align:center;line-height:1;letter-spacing:-.02em}
-  .rbtns{display:flex;gap:8px}
-  .rbtns .btn{padding:10px 0}
-  .runlog{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
-  .runlog .runstats{flex:1;min-width:140px;font-size:11.5px;color:var(--muted);line-height:1.4}
-  .runlog .runstats b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
-  .runspark{width:100%;height:120px;display:block;background:var(--panel2);border:1px solid var(--line);border-radius:12px}
   /* settings sheet */
   #sheet{position:fixed;inset:0;z-index:60;display:none;background:rgba(0,0,0,.55);align-items:flex-end}
   #sheet .s{width:100%;max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px calc(26px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
@@ -247,7 +207,10 @@
 <header>
   <div class="brand">
     <div class="logo"><b>REP<span>·</span>BOARD</b><small id="goaltag">74→69 kg</small></div>
-    <button class="iconbtn" id="gear" aria-label="Settings">⚙</button>
+    <div style="display:flex;gap:8px">
+      <button class="iconbtn" id="hamburger" aria-label="Body measurements">☰</button>
+      <button class="iconbtn" id="gear" aria-label="Settings">⚙</button>
+    </div>
   </div>
   <div class="days" id="days"></div>
 </header>
@@ -272,6 +235,10 @@
   <div class="srow">
     <div class="lab">Default rest<small>Countdown between strength sets</small></div>
     <div class="stepper"><button data-rest="-15">−</button><b id="restval">75s</b><button data-rest="15">+</button></div>
+  </div>
+  <div class="srow">
+    <div class="lab">Age<small id="hrnote">—</small></div>
+    <div class="stepper"><button data-age="-1">−</button><b id="ageval">30</b><button data-age="1">+</button></div>
   </div>
   <div class="srow">
     <div class="lab">Lift weights<small>Dumbbells, machines, Smith bar</small></div>
@@ -314,6 +281,9 @@
 
 <!-- per-exercise weight history sheet -->
 <div id="histsheet"><div class="s" id="histbody"></div></div>
+
+<!-- body measurements sheet -->
+<div id="measuresheet"><div class="s" id="measurebody"></div></div>
 
 <script>
 /* ---------------- data ---------------- */
@@ -365,21 +335,40 @@ const PLAN = {
     {id:'c5',name:'Smith Machine Calf Raise',sets:3,reps:'15',equip:'Smith machine',pat:'calf',
       cue:'Bar on your upper back, balls of your feet on the floor or a small plate. Rise onto your toes as high as you can, pause, lower slowly for a full stretch.',q:'smith machine calf raise'},
   ]},
-  tue:{type:'cardio',title:'Steady-State Cardio',est:'~27 min',mode:'steady',
-    note:'Easy, conversational effort — a pace you could just about chat at. Move through each block; the timer counts it down and rolls you onto the next machine. Edit the blocks to suit you.',
-    blocks:[['run',12],['row',5],['cross',10]]},
-  thu:{type:'cardio',title:'Cardio Intervals',est:'~22 min',mode:'intervals',
-    note:'After an easy warm-up: 30s hard / 90s easy × 8 rounds. Go genuinely hard on the work, fully ease off on the rest. The stair climber and cross trainer are ideal for this.',
-    modes:[['bike','Bike'],['stairs','Stairs'],['cross','Cross trainer'],['row','Row'],['bag','Heavy bag']],
-    work:30, restt:90, rounds:8},
-  sun:{type:'cardio',title:'Active Recovery',est:'~30 min',mode:'steady',
-    note:'Not a hard day — that’s the point. Keep it gentle and low heart rate, plus a few minutes of mobility after. Get your steps and feel fresh for Monday.',
-    blocks:[['run',20],['cross',10]]},
+  tue:{type:'cardio',title:'Steady-State Cardio',mode:'steady',intensity:'Easy · talk test',hr:[.67,.75],
+    note:'Zone 2: you should be able to hold a full conversation the whole way. If you can’t, slow down — going harder here does not burn more fat, it just costs you Wednesday’s lifts. Four machines spreads the joint load and keeps it bearable. This session is where most of your weekly aerobic volume should come from. The talk test beats the watch: if the number says you’re in range but you can’t speak a full sentence, believe your lungs.',
+    blocks:[{machine:'cross',min:8},{machine:'row',min:7},{machine:'stairs',min:7},{machine:'run',min:8}]},
+  thu:{type:'cardio',title:'Cardio Intervals',mode:'intervals',intensity:'Easy',hr:[.60,.70],hrWork:[.85,.96],
+    note:'This is your own protocol: 2 min at 6 mph, 3 min at 4 mph, four times through. It is a legitimate interval session — 10 METs against 4, a 2.5× contrast — so keep it. Two things to change. First, frequency: you ran this Sep 9, 10 and 12, and three hard sessions next to three lifting days is why nothing recovers. Once a week here, twice at the absolute most. Second, ceiling: you touch 187 on the work bouts, which is 100% of max. You do not need that — top out around 175–180 and the session costs far less to recover from for the same adaptation. Progress by lengthening the work, not by going faster: 2 min → 2.5 → 3 min at 5.5–6 mph, working toward 4 × (4 min hard / 3 min easy), which is the best-evidenced VO2max protocol there is. If your Saturday lifts keep stalling, move this to the cross trainer to spare your legs.',
+    blocks:[
+      {machine:'run',min:5,cue:'Easy walking to warm up — 3.5 mph flat is plenty. Don’t skip it; intervals from cold is how people get hurt.'},
+      {machine:'run',ivl:{work:120,rest:180,rounds:4},
+        cue:'Four rounds: 2 min at 6 mph, then 3 min at 4 mph — time it off the treadmill’s display. Aim to top out at 175–180, not 187. Hitting 180 early is not a reason to quit: finish the rep, then judge on the walk. Back under 140 before the next rep means go again; still over 155 means make that your last one. If 180 keeps showing up on rep 1 or 2, the work speed is too high — drop it to 5.5 mph.'},
+      {machine:'run',min:3,cue:'Walk at 3 mph flat until your breathing settles.'}]},
+  sun:{type:'cardio',title:'Active Recovery',mode:'steady',intensity:'Very easy · nose breathing',hr:[.56,.67],
+    note:'Not a hard day — that’s the point. If you’re breathing through your mouth, back off. The goal is blood flow and a bit of extra weekly volume, not calories. Finish with five minutes of mobility and you’re set for Monday.',
+    blocks:[{machine:'cross',min:15},{machine:'row',min:7},{machine:'run',min:5}]},
   fri:{type:'rest'},
 };
-// machines for cardio circuits (label + animation pattern)
-const MACH={run:{label:'Treadmill',pat:'run'},cross:{label:'Cross trainer',pat:'cross'},stairs:{label:'Stairs',pat:'stairs'},row:{label:'Row',pat:'row'},bike:{label:'Bike',pat:'bike'},bag:{label:'Heavy bag',pat:'bag'}};
-const MKEYS=['run','cross','stairs','row','bike'];
+// cardio exercises — same shape of content as a strength exercise, plus the
+// metric worth tracking on each machine (unit label; dist uses your distance setting)
+const CARDIO_EX={
+  cross:{name:'Cross Trainer',equip:'Elliptical',pat:'cross',unit:'strides',
+    cue:'Stand tall, light grip on the handles, push through the whole foot and let the arms work too. Resistance high enough that you’re not just spinning — but low enough to keep talking.',
+    setup:'Resistance / incline level…',q:'elliptical cross trainer proper form'},
+  row:{name:'Rowing Machine',equip:'Rower',pat:'row',unit:'pulls',
+    cue:'Drive legs → back → arms, recover arms → back → legs. The legs do ~60% of the work; don’t yank with the arms. Long, smooth strokes at about 20–24 a minute beat short frantic ones.',
+    setup:'Damper / resistance setting…',q:'rowing machine technique for beginners'},
+  stairs:{name:'Stair Climber',equip:'Stair mill',pat:'stairs',unit:'floors',
+    cue:'Rest your hands lightly on the rails — don’t lean on them, that’s where the work goes. Whole foot on each step, stand upright, let the glutes drive. Highest calorie cost per minute of anything here.',
+    setup:'Level / step rate…',q:'stair climber proper form'},
+  run:{name:'Treadmill',equip:'Treadmill',pat:'run',dist:true,
+    cue:'You have a heart-rate monitor, so use it instead of a speed table: set the belt so the watch reads 125–140 and hold it there. Around 3.0–3.5 mph at 5% is a reasonable place to start dialling from. The one rule that matters on a steady day is that it stays steady — no bursts. Your run/walk sessions spike to 180+, which is excellent training but belongs on the one or two hard days, not on a base day.',
+    setup:'Speed & incline…',q:'incline treadmill walking for fat loss'},
+  bag:{name:'Heavy Bag',equip:'Heavy bag',pat:'bag',unit:'rounds',
+    cue:'Hands up, feet moving, breathe out on every strike. Fine as an interval substitute when you want something that doesn’t feel like a machine.',
+    setup:'Wraps / gloves / round length…',q:'heavy bag workout for beginners'},
+};
 
 /* ---------------- storage (window.storage w/ fallback) ---------------- */
 const mem={};
@@ -430,6 +419,14 @@ function bwUnit(){return settings.bwUnits==='lb'?'lb':'kg';}
 function bwToDisp(kg){return settings.bwUnits==='lb'?kg/LBKG:kg;}
 function bwFromDisp(v){return settings.bwUnits==='lb'?v*LBKG:v;}
 function fmtBW(kg){const r=Math.round(bwToDisp(kg)*10)/10;return r%1?r.toFixed(1):String(r);}
+// Tanaka: 208 - 0.7*age predicts max HR better than the old 220-age. Any
+// age-based estimate carries roughly ±10 bpm, so treat zones as a starting
+// point to calibrate against the talk test, not a hard threshold.
+function hrMax(){return Math.round(208-0.7*(settings.age||30));}
+function hrBand(r){const m=hrMax();return Math.round(m*r[0])+'–'+Math.round(m*r[1]);}
+function bwHist(){return bwLog.slice().sort((a,b)=>a.d<b.d?-1:1);}
+// baseline is your first real weigh-in, not a hardcoded constant
+function bwStart(){const h=bwHist();return h.length?h[0].kg:BW_START;}
 // streak helpers (dates kept in same UTC convention as todayStr)
 function parseD(s){const p=s.split('-');return new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));}
 function ymd(dt){return dt.toISOString().slice(0,10);}
@@ -442,17 +439,39 @@ function streakCount(){if(!workoutDays.length)return 0;const days=[...new Set(wo
 function markToday(){const d=todayStr();if(!workoutDays.includes(d)){workoutDays.push(d);sset('fb_wdays',workoutDays);refreshStreak();}}
 function toggleDay(d){const i=workoutDays.indexOf(d);if(i>=0)workoutDays.splice(i,1);else workoutDays.push(d);sset('fb_wdays',workoutDays);refreshStreak();}
 function toggleToday(){toggleDay(todayStr());}
-// daily run (distance covered in a fixed time) — own key: fb_runs, stored canonically in miles
+// the daily fixed-time treadmill test is just another cardio series
 const RUN_MIN=10;
-let runLog=[];            // [{d, mi}]
 function distUnit(){return settings.distUnits==='km'?'km':'mi';}
 function distToDisp(mi){return settings.distUnits==='km'?mi*1.609344:mi;}
 function distFromDisp(v){return settings.distUnits==='km'?v/1.609344:v;}
 function fmtDist(mi){return (Math.round(distToDisp(mi)*100)/100).toFixed(2);}
-function runHist(){return runLog.slice().sort((a,b)=>a.d<b.d?-1:1);}
-function lastRun(){const h=runHist();return h.length?h[h.length-1].mi:undefined;}
-function bestRun(){const h=runHist();return h.length?Math.max(...h.map(x=>x.mi)):undefined;}
-function logRun(mi){const d=todayStr();const e=runLog.find(x=>x.d===d);if(e)e.mi=mi;else runLog.push({d,mi});sset('fb_runs',runLog);}
+const RUN_KEY=CARDIO_EX.run.name+' · '+RUN_MIN+' min';
+// Distance/count only compares against itself at the same protocol — 0.81 mi in
+// 10 min says nothing about 8 min of incline walking — so each block keeps its
+// own series rather than pooling everything under the machine name.
+function migrateRunLog(rl){
+  if(!rl||!rl.length)return;
+  // merge rather than assign: an entry already in cardioHist is newer than the
+  // old fb_runs copy, so it must win if both hold the same date
+  cardioHist[RUN_KEY]=mergeLog(cardioHist[RUN_KEY],rl.map(x=>({d:x.d,v:x.mi})));
+  sset('fb_cardiohist',cardioHist);
+}
+// per-cardio-exercise metric history (pulls, floors, strides, distance…) — own key: fb_cardiohist
+let cardioHist={};        // exercise name -> [{d, v}]
+function cHistOf(n){return (cardioHist[n]||[]).slice().sort((a,b)=>a.d<b.d?-1:1);}
+function cLast(n){const h=cHistOf(n);return h.length?h[h.length-1].v:undefined;}
+function logC(n,v){const d=todayStr();const h=cardioHist[n]=cardioHist[n]||[];const e=h.find(x=>x.d===d);if(e)e.v=v;else h.push({d,v});sset('fb_cardiohist',cardioHist);}
+function delC(n,d){if(cardioHist[n])cardioHist[n]=cardioHist[n].filter(x=>x.d!==d);sset('fb_cardiohist',cardioHist);}
+// display helpers: distance metrics honour the distance unit setting, counts are raw
+function cUnit(ex){return ex.dist?distUnit():ex.unit;}
+function cToDisp(ex,v){return ex.dist?distToDisp(v):v;}
+function cNum(ex,v){return ex.dist?(Math.round(v*100)/100).toFixed(2):String(Math.round(v*10)/10);}
+// body measurements (inches) — own key: fb_measure
+const MEASURES=[['navel','Navel'],['thigh','Thigh'],['waist','Waist'],['arm','Arm']];
+let bodyMeasureLog=[];    // [{d, navel, thigh, waist, arm}]
+function measureHist(){return bodyMeasureLog.slice().sort((a,b)=>a.d<b.d?-1:1);}
+function logMeasure(vals){const d=todayStr();let e=bodyMeasureLog.find(x=>x.d===d);if(!e){e={d};bodyMeasureLog.push(e);}Object.assign(e,vals);sset('fb_measure',bodyMeasureLog);}
+function delMeasure(d){bodyMeasureLog=bodyMeasureLog.filter(x=>x.d!==d);sset('fb_measure',bodyMeasureLog);}
 function fmtDate(d){const p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2]);}
 // per-exercise weight history
 function histOf(name){return (exHist[name]||[]).slice().sort((a,b)=>a.d<b.d?-1:1);}
@@ -461,12 +480,23 @@ function firstW(name){const h=histOf(name);return h.length?h[0].kg:undefined;}
 function bestW(name){const h=histOf(name);return h.length?Math.max(...h.map(x=>x.kg)):undefined;}
 function logW(name,kg){const d=todayStr();const h=exHist[name]=exHist[name]||[];const e=h.find(x=>x.d===d);if(e)e.kg=kg;else h.push({d,kg});sset('fb_exhist',exHist);}
 function delW(name,d){if(exHist[name])exHist[name]=exHist[name].filter(x=>x.d!==d);sset('fb_exhist',exHist);}
-// per-exercise setup notes (equipment settings, seat height, pin position, etc.)
-function getNote(name){return exNotes[name]||'';}
-function setNote(name,v){if(v)exNotes[name]=v;else delete exNotes[name];sset('fb_exnotes',exNotes);}
+// setup notes (equipment settings, seat height, pin position, resistance, etc.)
+// keyed generically — by exercise name for strength cards, by machine key (e.g. 'row') for cardio
+function getNote(key){return exNotes[key]||'';}
+function setNote(key,v){if(v)exNotes[key]=v;else delete exNotes[key];sset('fb_exnotes',exNotes);}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// wires a collapsible notes-toggle/notes-box pair (see markup in renderStrength/rowExtrasHTML)
+function wireNotesToggle(ntoggle,nbox,key,label){
+  label=label||'Setup notes';
+  const ntext=nbox.querySelector('textarea');
+  ntoggle.onclick=()=>{const open=nbox.classList.toggle('open');ntoggle.classList.toggle('open',open);};
+  let noteT=null;
+  const refreshLabel=()=>{ntoggle.innerHTML=`<span class="car">▸</span> ${label}${getNote(key)?'<span class="ndot"></span>':''}`;ntoggle.classList.toggle('open',nbox.classList.contains('open'));};
+  ntext.oninput=()=>{clearTimeout(noteT);noteT=setTimeout(()=>setNote(key,ntext.value),400);};
+  ntext.onblur=()=>{clearTimeout(noteT);setNote(key,ntext.value);refreshLabel();};
+}
 
-let settings={rest:75,sound:true,units:'lb',bwUnits:'kg',distUnits:'mi',ghRepo:'',ghToken:''};
+let settings={rest:75,sound:true,age:30,units:'lb',bwUnits:'kg',distUnits:'mi',ghRepo:'',ghToken:''};
 const BW_START=75.3, BW_GOAL=69; // bodyweight baseline & goal (kg)
 let exHist={};             // name -> [{d:'YYYY-MM-DD', kg}] history
 let exNotes={};            // name -> free-text setup notes (own key: fb_exnotes)
@@ -800,7 +830,7 @@ function render(){
   window.scrollTo(sx, sy);
 }
 function _render(){
-  if(cTimer){clearInterval(cTimer);cTimer=null;}
+  stopActiveCardio();
   if(runTimer){clearInterval(runTimer);runTimer=null;}
   figs=[]; // reset animations
   // day tabs
@@ -817,14 +847,18 @@ function _render(){
   // mark today's tab
   const ti=DAYS.findIndex(d=>d.k===TODAY_KEY);
   if(ti>=0)dd.children[ti].classList.add('today');
-  if(plan.type==='strength' && !(curDay in completion)){
+  if(plan.type!=='rest' && !(curDay in completion)){
     content.innerHTML='<div class="ptxt" style="padding:24px 2px">Loading…</div>';
     sget(compKey(curDay)).then(c=>{completion[curDay]=c||{};render();});
     return;
   }
-  if(plan.type==='rest'){renderStreakCard();renderRunCard();renderRest();appendTracker();return;}
-  if(plan.type==='cardio'){renderStreakCard();renderRunCard();renderCardio(plan);return;}
-  renderStreakCard();renderRunCard();renderStrength(plan);
+  // the daily 10-min card would just duplicate a treadmill block the plan already has
+  const planHasTreadmill=(plan.blocks||[]).some(b=>b.machine==='run');
+  renderStreakCard();
+  if(!planHasTreadmill)renderRunCard();
+  if(plan.type==='rest'){renderRest();appendTracker();return;}
+  if(plan.type==='cardio'){renderCardio(plan);return;}
+  renderStrength(plan);
 }
 
 function renderRest(){
@@ -869,11 +903,7 @@ function renderStrength(plan){
     registerFig(card.querySelector('canvas'),e.pat);
 
     // setup notes: collapsible, free-text, saved per exercise name
-    const ntoggle=card.querySelector('.notes-toggle'),nbox=card.querySelector('.notes-box'),ntext=nbox.querySelector('textarea');
-    ntoggle.onclick=()=>{const open=nbox.classList.toggle('open');ntoggle.classList.toggle('open',open);};
-    let noteT=null;
-    ntext.oninput=()=>{clearTimeout(noteT);noteT=setTimeout(()=>setNote(e.name,ntext.value),400);};
-    ntext.onblur=()=>{clearTimeout(noteT);setNote(e.name,ntext.value);ntoggle.innerHTML=`<span class="car">▸</span> Setup notes${getNote(e.name)?'<span class="ndot"></span>':''}`;ntoggle.classList.toggle('open',nbox.classList.contains('open'));};
+    wireNotesToggle(card.querySelector('.notes-toggle'),card.querySelector('.notes-box'),e.name);
 
     // sets row
     const row=card.querySelector('.sets');
@@ -940,126 +970,163 @@ function updateProgress(plan){
     t.textContent=d>=tot&&tot>0?'Workout complete — nice work. 💪':`${d} of ${tot} sets done`;}
 }
 
-/* -------- cardio rendering -------- */
-let cTimer=null;
-let cardioBlocks={}; // day -> [{machine,min}]
-function renderCardio(plan){
+/* -------- cardio rendering: one card per machine, same shell as strength -------- */
+let cTimer=null, cStopActive=null;
+function blockMins(b){return b.ivl?Math.round(b.ivl.rounds*(b.ivl.work+b.ivl.rest)/60):b.min;}
+function secLabel(s){return s%60===0?(s/60)+' min':s+'s';}
+function metricKey(ex,b){return ex.name+' · '+(b.ivl
+  ?`${b.ivl.rounds} × ${secLabel(b.ivl.work)} / ${secLabel(b.ivl.rest)}`:`${b.min} min`);}
+// only one cardio timer runs at a time — starting one stops whatever was running
+function stopActiveCardio(){
   if(cTimer){clearInterval(cTimer);cTimer=null;}
-  const wrap=document.createElement('div');
-  wrap.innerHTML=`
+  if(cStopActive){const f=cStopActive;cStopActive=null;f();}
+}
+// The cardio plan is fixed, like the strength days — it is edited in PLAN, not in
+// the UI. Ids are positional so completion ticks stay attached across renders.
+function dayBlocks(plan,day){return plan.blocks.map((b,i)=>Object.assign({id:day+'-'+i},b));}
+function renderCardio(plan){
+  stopActiveCardio();
+  const blocks=dayBlocks(plan,curDay);
+  const head=document.createElement('div');
+  head.innerHTML=`
     <div class="dayhead"><div><div class="eyebrow">${DAYS.find(d=>d.k===curDay).n} · ${plan.mode==='intervals'?'Intervals':'Cardio'}</div>
-      <h1>${plan.title}</h1></div><div class="meta">${plan.est}</div></div>`;
-  content.appendChild(wrap);
-  const box=document.createElement('div');box.className='cardio';content.appendChild(box);
-  if(plan.mode==='intervals') buildIntervals(plan,box);
-  else buildCircuit(curDay,plan,box);
+      <h1>${plan.title}</h1></div><div class="meta" id="cmeta"></div></div>
+    <div class="pbar"><i id="pfill"></i></div>
+    <div class="ptxt" id="ptxt"></div>`;
+  content.appendChild(head);
+  blocks.forEach(b=>content.appendChild(cardioCard(plan,blocks,b)));
+  const foot=document.createElement('div');
+  foot.innerHTML=`<div class="cue" style="padding:16px 2px 0">${plan.note}</div>`;
+  content.appendChild(foot);
+  updateCardioProgress(plan,blocks);
   appendTracker();
 }
-
-/* ---- steady cardio = editable circuit of timed machine blocks ---- */
-function buildCircuit(day,plan,box){
-  let blocks = cardioBlocks[day] || plan.blocks.map(b=>({machine:b[0],min:b[1]}));
-  cardioBlocks[day]=blocks;
-  let idx=0,left=blocks[0].min*60,running=false,done=false;
-  box.innerHTML=`<div class="cfig"><canvas></canvas></div>
-    <div class="bigtimer"><div class="phase" id="cphase"></div><div class="clock" id="cclock">0:00</div><div class="sub" id="csub"></div></div>
-    <div class="controls">
-      <button class="btn primary" id="cstart">Start</button>
-      <button class="btn" id="cskip">Next ›</button>
-      <button class="btn ghost" id="creset">Reset</button>
-    </div>
-    <div class="circuit" id="circuit"></div>
-    <button class="addblock" id="addblock">+ Add block</button>
-    <div class="cue" style="padding:14px 2px 0">${plan.note}</div>`;
-  const canvas=box.querySelector('canvas');
-  const clock=box.querySelector('#cclock'),phase=box.querySelector('#cphase'),sub=box.querySelector('#csub');
-  const startBtn=box.querySelector('#cstart'),skipBtn=box.querySelector('#cskip'),resetBtn=box.querySelector('#creset');
-  const list=box.querySelector('#circuit'),addBtn=box.querySelector('#addblock');
-  const totalMin=()=>blocks.reduce((s,b)=>s+b.min,0);
-  const save=()=>sset('fb_cardio_'+day,blocks);
-
-  function setFig(){figs=figs.filter(f=>f.ctx.canvas!==canvas);registerFig(canvas,MACH[blocks[idx].machine].pat);}
-  function paintTimer(){
-    if(done){phase.textContent='Done 🎉';phase.style.color='var(--teal)';clock.textContent='0:00';sub.textContent='Circuit complete';return;}
-    phase.textContent=MACH[blocks[idx].machine].label;phase.style.color='var(--amber)';
-    clock.textContent=fmt(left);
-    sub.textContent=`Block ${idx+1} of ${blocks.length} · ${totalMin()} min total`;
-  }
-  function renderList(){
-    list.innerHTML='';
-    blocks.forEach((b,i)=>{
-      const row=document.createElement('div');
-      row.className='brow'+(!done&&i===idx?' on':'')+(i<idx||done?' done':'');
-      row.innerHTML=`<div class="num">${i+1}</div>
-        <button class="bmach">${MACH[b.machine].label}<span class="car">▾</span></button>
-        <div class="bdur"><button class="dn">−</button><b>${b.min} <small>min</small></b><button class="up">+</button></div>
-        <button class="bx" aria-label="Remove">✕</button>`;
-      const dis=running;
-      row.querySelector('.bmach').disabled=dis;
-      row.querySelectorAll('.bdur button').forEach(x=>x.disabled=dis);
-      const bx=row.querySelector('.bx');bx.disabled=dis||blocks.length<=1;
-      row.querySelector('.bmach').onclick=()=>{const ci=MKEYS.indexOf(b.machine);b.machine=MKEYS[(ci+1)%MKEYS.length];if(i===idx)setFig();save();renderList();paintTimer();};
-      row.querySelector('.dn').onclick=()=>{b.min=Math.max(1,b.min-1);if(i===idx&&!running)left=b.min*60;save();renderList();paintTimer();};
-      row.querySelector('.up').onclick=()=>{b.min=Math.min(60,b.min+1);if(i===idx&&!running)left=b.min*60;save();renderList();paintTimer();};
-      bx.onclick=()=>{if(blocks.length<=1)return;blocks.splice(i,1);if(idx>=blocks.length)idx=blocks.length-1;if(!running)left=blocks[idx].min*60;setFig();save();renderList();paintTimer();};
-      list.appendChild(row);
-    });
-    addBtn.disabled=running;
-  }
-  function advance(){
-    if(idx<blocks.length-1){idx++;left=blocks[idx].min*60;setFig();endBlockBeep();renderList();paintTimer();}
-    else{done=true;running=false;clearInterval(cTimer);startBtn.textContent='Start';startBtn.classList.add('primary');endChime();renderList();paintTimer();}
-  }
-  function endBlockBeep(){beep(760,.12);beep(990,.14,.13);buzz(90);}
-  function tick(){left--;if(left<=3&&left>0)beep(700,.08);if(left<=0)advance();else paintTimer();}
-
-  startBtn.onclick=()=>{
-    if(done){idx=0;left=blocks[0].min*60;done=false;setFig();}
-    running=!running;startBtn.textContent=running?'Pause':'Start';startBtn.classList.toggle('primary',!running);
-    if(running){beep(880,.1);setFig();paintTimer();renderList();cTimer=setInterval(tick,1000);}
-    else{clearInterval(cTimer);renderList();}
-  };
-  skipBtn.onclick=()=>{if(!done)advance();};
-  resetBtn.onclick=()=>{clearInterval(cTimer);running=false;done=false;idx=0;left=blocks[0].min*60;startBtn.textContent='Start';startBtn.classList.add('primary');setFig();paintTimer();renderList();};
-  addBtn.onclick=()=>{blocks.push({machine:'run',min:5});save();renderList();paintTimer();};
-
-  setFig();paintTimer();renderList();
+function updateCardioProgress(plan,blocks){
+  const doneMap=completion[curDay]||{};
+  const d=blocks.filter(b=>doneMap[b.id]).length,tot=blocks.length;
+  const mins=blocks.reduce((s,b)=>s+blockMins(b),0);
+  const m=document.getElementById('cmeta');
+  if(m)m.innerHTML=`${tot} block${tot===1?'':'s'}<br>~${mins} min`;
+  const f=document.getElementById('pfill'),t=document.getElementById('ptxt');
+  if(f){f.style.width=(tot?d/tot*100:0)+'%';
+    t.textContent=d>=tot&&tot>0?'Session complete — nice work. 💪':`${d} of ${tot} blocks done`;}
 }
-
-/* ---- intervals timer (Thursday) ---- */
-function buildIntervals(plan,box){
-  let mode=plan.modes[0][0];
-  box.innerHTML=`<div class="cfig"><canvas></canvas></div>
-    <div class="modes"></div>
-    <div class="bigtimer"><div class="phase" id="cphase"></div><div class="clock" id="cclock">0:00</div><div class="sub" id="csub"></div></div>
-    <div class="controls">
-      <button class="btn primary" id="cstart">Start</button>
-      <button class="btn ghost" id="creset">Reset</button>
+function cardioCard(plan,blocks,b){
+  const ex=CARDIO_EX[b.machine]||CARDIO_EX.cross;
+  const isIvl=!!b.ivl;
+  const cue=b.cue||ex.cue;          // interval blocks need their own coaching
+  const hrRange=isIvl?(plan.hrWork||plan.hr):plan.hr;
+  const doneMap=completion[curDay]=completion[curDay]||{};
+  const mkey=metricKey(ex,b);
+  const lastV=cLast(mkey);
+  const card=document.createElement('div');card.className='card'+(doneMap[b.id]?' done':'');
+  card.innerHTML=`
+    <div class="ctop">
+      <div class="fig"><span class="tag">demo</span><canvas></canvas></div>
+      <div class="cinfo">
+        <h3>${ex.name}</h3>
+        <span class="chip">${ex.equip}</span>
+        <span class="chip"><span class="reps">${isIvl?`${b.ivl.rounds} × ${secLabel(b.ivl.work)} / ${secLabel(b.ivl.rest)}`:`${b.min} min`}</span></span>
+        <span class="chip">${isIvl?'Hard · 8/10':plan.intensity}</span>
+        ${hrRange?`<span class="chip">♥ ${hrBand(hrRange)} bpm</span>`:''}
+      </div>
     </div>
-    <div class="cue" style="padding:14px 2px 0">${plan.note}</div>`;
-  const canvas=box.querySelector('canvas');registerFig(canvas,mode);
-  const modesEl=box.querySelector('.modes');
-  plan.modes.forEach((m,i)=>{const el=document.createElement('div');el.className='mode'+(i===0?' on':'');
-    el.textContent=m[1];el.onclick=()=>{mode=m[0];modesEl.querySelectorAll('.mode').forEach(x=>x.classList.remove('on'));el.classList.add('on');
-      figs=figs.filter(f=>f.ctx.canvas!==canvas);registerFig(canvas,mode);};
-    modesEl.appendChild(el);});
-  const clock=box.querySelector('#cclock'),phase=box.querySelector('#cphase'),sub=box.querySelector('#csub');
-  const startBtn=box.querySelector('#cstart'),resetBtn=box.querySelector('#creset');
-  let round=1,inWork=true,left=plan.work,running=false;
-  phase.textContent='Ready';clock.textContent=fmt(plan.work);sub.textContent=`Round 1 / ${plan.rounds} · 30s work / 90s easy`;
-  const setUI=()=>{phase.textContent=inWork?'Work':'Easy';phase.style.color=inWork?'var(--amber)':'var(--teal)';
-    clock.textContent=fmt(left);sub.textContent=`Round ${round} / ${plan.rounds}`;};
-  const tick=()=>{left--;
-    if(left<=3&&left>0)beep(inWork?900:600,.08);
-    if(left<=0){
-      if(inWork){inWork=false;left=plan.restt;beep(600,.14);buzz(80);}
-      else{round++;if(round>plan.rounds){clearInterval(cTimer);running=false;phase.textContent='Done 🎉';phase.style.color='var(--teal)';clock.textContent='0:00';sub.textContent='Session complete';startBtn.textContent='Start';startBtn.classList.add('primary');endChime();return;}
-        inWork=true;left=plan.work;beep(900,.14);buzz(80);}
+    <div class="cue">${cue}</div>
+    <a class="demo" target="_blank" rel="noopener" href="${yt(ex.q)}">▶ Watch demo</a>
+    <button class="notes-toggle"><span class="car">▸</span> Setup notes${getNote(ex.name)?'<span class="ndot"></span>':''}</button>
+    <div class="notes-box"><textarea placeholder="${ex.setup}">${esc(getNote(ex.name))}</textarea></div>
+    <div class="ctimer">
+      <span class="ctclock">0:00</span><span class="ctphase"></span>
+      <button class="tbtn cstart">Start</button>
+      <button class="tbtn creset">Reset</button>
+    </div>
+    <button class="donebig cdone${doneMap[b.id]?' on':''}">${doneMap[b.id]?'✓ Done':'Mark done'}</button>
+    <div class="sets">
+      <div class="grow"></div>
+      <div class="wbox"><label>${cUnit(ex)}</label><input class="cmetric" type="text" inputmode="decimal" placeholder="–" value="${lastV!=null?cNum(ex,cToDisp(ex,lastV)):''}"><button class="wlog">Log</button></div>
+    </div>
+    <div class="cgrowth"><canvas class="mini"></canvas><div class="ginfo"></div><button class="hbtn">History ›</button></div>`;
+  registerFig(card.querySelector('canvas'),ex.pat);
+  wireNotesToggle(card.querySelector('.notes-toggle'),card.querySelector('.notes-box'),ex.name);
+
+  const clock=card.querySelector('.ctclock'),phase=card.querySelector('.ctphase');
+  const startBtn=card.querySelector('.cstart'),doneBtn=card.querySelector('.cdone'),resetBtn=card.querySelector('.creset');
+  let round=1,inWork=true,running=false,started=false,finished=false;
+  const startLeft=()=>isIvl?b.ivl.work:b.min*60;
+  let left=startLeft();
+  function paint(){
+    if(finished){phase.textContent='Done 🎉';phase.style.color='var(--teal)';clock.textContent='0:00';return;}
+    if(isIvl){
+      if(!started){phase.textContent='Ready';phase.style.color='var(--amber)';}
+      else{phase.textContent=`${inWork?'Work':'Easy'} · round ${round}/${b.ivl.rounds}`;
+        phase.style.color=inWork?'var(--amber)':'var(--teal)';}
     }
-    setUI();};
-  startBtn.onclick=()=>{running=!running;startBtn.textContent=running?'Pause':'Start';startBtn.classList.toggle('primary',!running);
-    if(running){beep(900,.12);setUI();cTimer=setInterval(tick,1000);}else clearInterval(cTimer);};
-  resetBtn.onclick=()=>{clearInterval(cTimer);running=false;round=1;inWork=true;left=plan.work;phase.textContent='Ready';phase.style.color='var(--amber)';clock.textContent=fmt(plan.work);sub.textContent=`Round 1 / ${plan.rounds}`;startBtn.textContent='Start';startBtn.classList.add('primary');};
+    clock.textContent=fmt(left);
+  }
+  const stopSelf=()=>{running=false;startBtn.textContent='Start';startBtn.classList.remove('on');};
+  function setDone(v){
+    if(v)doneMap[b.id]=true;else delete doneMap[b.id];
+    sset(compKey(curDay),doneMap);
+    card.classList.toggle('done',v);
+    doneBtn.textContent=v?'✓ Done':'Mark done';
+    doneBtn.classList.toggle('on',v);
+    if(v)markToday();
+    updateCardioProgress(plan,blocks);
+  }
+  function finish(){finished=true;stopActiveCardio();endChime();setDone(true);paint();}
+  function tick(){
+    left--;
+    if(isIvl){
+      if(left<=3&&left>0)beep(inWork?900:600,.08);
+      if(left<=0){
+        if(inWork){inWork=false;left=b.ivl.rest;beep(600,.14);buzz(80);}
+        else{round++;if(round>b.ivl.rounds){finish();return;}inWork=true;left=b.ivl.work;beep(900,.14);buzz(80);}
+      }
+    }else{
+      if(left<=3&&left>0)beep(700,.08);
+      if(left<=0){finish();return;}
+    }
+    paint();
+  }
+  startBtn.onclick=()=>{
+    if(running){stopActiveCardio();return;}
+    if(finished){finished=false;started=false;round=1;inWork=true;left=startLeft();}
+    stopActiveCardio();
+    running=true;started=true;cStopActive=stopSelf;
+    startBtn.textContent='Pause';startBtn.classList.add('on');
+    beep(880,.1);paint();cTimer=setInterval(tick,1000);
+  };
+  resetBtn.onclick=()=>{stopActiveCardio();finished=false;started=false;round=1;inWork=true;
+    left=startLeft();paint();};
+  doneBtn.onclick=()=>{setDone(!doneMap[b.id]);buzz(20);};
+
+  const inp=card.querySelector('.cmetric');
+  const commit=()=>{const v=parseFloat(inp.value);if(isNaN(v))return;
+    logC(mkey,ex.dist?distFromDisp(v):v);refreshCardioGrowth(card,ex,mkey);buzz(15);};
+  inp.onchange=commit;card.querySelector('.wlog').onclick=commit;
+  card.querySelector('.hbtn').onclick=()=>openCardioHistory(ex,mkey);
+  refreshCardioGrowth(card,ex,mkey);
+  paint();
+  return card;
+}
+function refreshCardioGrowth(card,ex,key){
+  const mini=card.querySelector('.mini');if(!mini)return;
+  const pts=cHistOf(key).map(p=>({d:p.d,kg:cToDisp(ex,p.v)}));
+  drawWeightChart(mini,pts,{dp:ex.dist?2:undefined});
+  const gi=card.querySelector('.ginfo');
+  if(!pts.length){gi.innerHTML=`<span style="color:var(--muted)">No ${cUnit(ex)} logged yet — tap Log</span>`;return;}
+  const l=pts[pts.length-1].kg,f=pts[0].kg,best=Math.max(...pts.map(p=>p.kg)),delta=l-f;
+  const trend=pts.length>1?` · <span style="color:${delta>=0?'var(--teal)':'var(--bad)'}">${delta>=0?'▲ +':'▼ '}${cNum(ex,Math.abs(delta))}</span>`:'';
+  gi.innerHTML=`<b>${cNum(ex,l)} ${cUnit(ex)}</b> last · best ${cNum(ex,best)}${trend}`;
+}
+function openCardioHistory(ex,key){
+  renderHistorySheet({
+    title:key,
+    hint:`Every ${cUnit(ex)} number you log lives here. Same output in the same time means no adaptation — this line should creep upward.`,
+    empty:'Log a number after a session to start your history.',
+    pts:cHistOf(key).map(p=>({d:p.d,val:cToDisp(ex,p.v)})),
+    fmt:v=>cNum(ex,v),unit:cUnit(ex),dp:ex.dist?2:undefined,
+    onDel:d=>{delC(key,d);openCardioHistory(ex,key);render();}});
 }
 
 /* -------- bodyweight tracker (shown on cardio + rest days bottom too) -------- */
@@ -1101,64 +1168,83 @@ function refreshStreak(){
   }
 }
 let runTimer=null;
+// Same shell as a cardio card — it is the same job: read it, do it, tick it.
 function renderRunCard(){
   if(runTimer){clearInterval(runTimer);runTimer=null;}
-  const card=document.createElement('div');card.className='panel runpanel';card.id='runcard';
-  content.appendChild(card);
-  const last=lastRun();
+  const ex=CARDIO_EX.run, last=cLast(RUN_KEY);
+  const doneToday=cHistOf(RUN_KEY).some(x=>x.d===todayStr());
+  const card=document.createElement('div');
+  card.className='card'+(doneToday?' done':'');card.id='runcard';
   card.innerHTML=`
-    <div class="runhead"><h2>Daily Run</h2><span class="runsub">${RUN_MIN} min · log your distance</span></div>
-    <div class="runbody">
-      <div class="runfig"><canvas></canvas></div>
-      <div class="runtimer">
-        <div class="rclock" id="rclock">${fmt(RUN_MIN*60)}</div>
-        <div class="rbtns"><button class="btn primary" id="rstart">Start</button><button class="btn pos" id="rdone">Done</button><button class="btn ghost" id="rreset">Reset</button></div>
+    <div class="ctop">
+      <div class="fig"><span class="tag">demo</span><canvas></canvas></div>
+      <div class="cinfo">
+        <h3>Daily Treadmill</h3>
+        <span class="chip">Treadmill</span>
+        <span class="chip"><span class="reps">${RUN_MIN} min</span></span>
+        <span class="chip">Easy · talk test</span>
+        <span class="chip">&hearts; ${hrBand([.67,.75])} bpm</span>
       </div>
     </div>
-    <div class="runlog">
-      <div class="wbox"><label>${distUnit()}</label><input id="runin" type="text" inputmode="decimal" placeholder="–" value="${last!=null?fmtDist(last):''}"><button class="wlog" id="runlogbtn">Log</button></div>
-      <div class="runstats" id="runstats"></div>
+    <div class="cue">3 mph at 5% — hold 125–140 bpm, don’t exceed 140. Every 3–4 weeks, swap Thursday for a 10-min PB test.</div>
+    <a class="demo" target="_blank" rel="noopener" href="${yt(ex.q)}">▶ Watch demo</a>
+    <button class="notes-toggle"><span class="car">▸</span> Setup notes${getNote(ex.name)?'<span class="ndot"></span>':''}</button>
+    <div class="notes-box"><textarea placeholder="${ex.setup}">${esc(getNote(ex.name))}</textarea></div>
+    <div class="ctimer">
+      <span class="ctclock" id="rclock">${fmt(RUN_MIN*60)}</span><span class="ctphase"></span>
+      <button class="tbtn" id="rstart">Start</button>
+      <button class="tbtn" id="rreset">Reset</button>
     </div>
-    <canvas class="runspark" id="runspark"></canvas>`;
-  registerFig(card.querySelector('.runfig canvas'),'run');
-  const rclock=card.querySelector('#rclock'),rstart=card.querySelector('#rstart'),rreset=card.querySelector('#rreset'),rdone=card.querySelector('#rdone');
+    <button class="donebig${doneToday?' on':''}" id="rdone">${doneToday?'✓ Done':'Mark done'}</button>
+    <div class="sets">
+      <div class="grow"></div>
+      <div class="wbox"><label>${distUnit()}</label><input id="runin" type="text" inputmode="decimal" placeholder="–" value="${last!=null?fmtDist(last):''}"><button class="wlog" id="runlogbtn">Log</button></div>
+    </div>
+    <div class="cgrowth"><canvas class="mini"></canvas><div class="ginfo"></div><button class="hbtn">History ›</button></div>`;
+  content.appendChild(card);
+  registerFig(card.querySelector('canvas'),'run');
+  wireNotesToggle(card.querySelector('.notes-toggle'),card.querySelector('.notes-box'),ex.name);
+
+  const rclock=card.querySelector('#rclock'),rstart=card.querySelector('#rstart'),rreset=card.querySelector('#rreset');
   let left=RUN_MIN*60,running=false;
+  const stopRun=()=>{clearInterval(runTimer);runTimer=null;running=false;
+    rstart.textContent='Start';rstart.classList.remove('on');};
   const tick=()=>{left--;rclock.textContent=fmt(left);if(left<=3&&left>0)beep(700,.08);
-    if(left<=0){clearInterval(runTimer);running=false;endChime();rstart.textContent='Start';rstart.classList.add('primary');rclock.textContent='0:00';}};
-  rstart.onclick=()=>{if(left<=0){left=RUN_MIN*60;rclock.textContent=fmt(left);}
-    running=!running;rstart.textContent=running?'Pause':'Start';rstart.classList.toggle('primary',!running);
-    if(running){beep(880,.1);runTimer=setInterval(tick,1000);}else clearInterval(runTimer);};
-  rreset.onclick=()=>{clearInterval(runTimer);running=false;left=RUN_MIN*60;rclock.textContent=fmt(left);rstart.textContent='Start';rstart.classList.add('primary');};
-  // "Done" skips the in-app timer entirely — for whenever the treadmill's own display is used instead.
-  rdone.onclick=()=>{
-    clearInterval(runTimer);running=false;left=RUN_MIN*60;rclock.textContent=fmt(left);
-    rstart.textContent='Start';rstart.classList.add('primary');
-    const v=parseFloat(card.querySelector('#runin').value);
-    const last2=lastRun();
-    logRun(!isNaN(v)?distFromDisp(v):(last2!=null?last2:0));
-    markToday();endChime();refreshRunStats(card);
-  };
-  card.querySelector('#runlogbtn').onclick=()=>{const v=parseFloat(card.querySelector('#runin').value);if(isNaN(v))return;logRun(distFromDisp(v));refreshRunStats(card);buzz(15);};
-  refreshRunStats(card);
-}
-function refreshRunStats(card){
-  const stats=card.querySelector('#runstats');const spark=card.querySelector('#runspark');
-  const h=runHist();
-  if(!h.length){stats.innerHTML='<span style="color:var(--muted)">Log your first run</span>';}
-  else{const last=h[h.length-1].mi,best=Math.max(...h.map(x=>x.mi)),first=h[0].mi,delta=last-first;
-    const trend=h.length>1?` · <span style="color:${delta>=0?'var(--teal)':'var(--bad)'}">${delta>=0?'▲ +':'▼ '}${fmtDist(Math.abs(delta))}</span>`:'';
-    stats.innerHTML=`<b>${fmtDist(last)} ${distUnit()}</b> today · best ${fmtDist(best)}${trend}`;}
-  if(spark)drawWeightChart(spark,h.map(p=>({d:p.d,kg:distToDisp(p.mi)})),{axis:true,unit:distUnit(),dp:2});
+    if(left<=0){stopRun();endChime();rclock.textContent='0:00';}};
+  rstart.onclick=()=>{
+    if(running){stopRun();return;}
+    if(left<=0){left=RUN_MIN*60;rclock.textContent=fmt(left);}
+    running=true;rstart.textContent='Pause';rstart.classList.add('on');
+    beep(880,.1);runTimer=setInterval(tick,1000);};
+  rreset.onclick=()=>{stopRun();left=RUN_MIN*60;rclock.textContent=fmt(left);};
+  // marking done logs the distance too, so it is never a destructive toggle
+  card.querySelector('#rdone').onclick=e=>{
+    stopRun();left=RUN_MIN*60;rclock.textContent=fmt(left);
+    const v=parseFloat(card.querySelector('#runin').value),prev=cLast(RUN_KEY);
+    logC(RUN_KEY,!isNaN(v)?distFromDisp(v):(prev!=null?prev:0));
+    markToday();endChime();
+    card.classList.add('done');
+    e.target.textContent='✓ Done';e.target.classList.add('on');
+    refreshCardioGrowth(card,ex,RUN_KEY);};
+  card.querySelector('#runlogbtn').onclick=()=>{
+    const v=parseFloat(card.querySelector('#runin').value);if(isNaN(v))return;
+    logC(RUN_KEY,distFromDisp(v));refreshCardioGrowth(card,ex,RUN_KEY);buzz(15);};
+  card.querySelector('.hbtn').onclick=()=>openCardioHistory(ex,RUN_KEY);
+  refreshCardioGrowth(card,ex,RUN_KEY);
 }
 function appendTracker(){
   const p=document.createElement('div');p.className='panel';
-  const latest=bwLog.length?bwLog[bwLog.length-1].kg:BW_START;
-  const start=BW_START,goal=BW_GOAL;
+  const h=bwHist();
+  const latest=h.length?h[h.length-1].kg:BW_START;
+  const start=bwStart(),goal=BW_GOAL;
   const pct=Math.max(0,Math.min(100,(start-latest)/(start-goal)*100));
+  const moved=start-latest;
+  const movedTxt=moved>=0?`${fmtBW(moved)} ${bwUnit()} down`
+    :`<span style="color:var(--bad)">${fmtBW(-moved)} ${bwUnit()} up</span>`;
   p.innerHTML=`
     <h2>Bodyweight</h2><p class="hint">Log a few mornings a week — track the trend, not the daily number.</p>
     <div class="goalrow"><div class="now">${fmtBW(latest)}<u>${bwUnit()}</u></div>
-      <div class="tags">start ${fmtBW(start)} · goal <b>${fmtBW(goal)}</b><br>${fmtBW(start-latest)} ${bwUnit()} down · ${fmtBW(Math.max(0,latest-goal))} to go</div></div>
+      <div class="tags">start ${fmtBW(start)} · goal <b>${fmtBW(goal)}</b><br>${movedTxt} · ${fmtBW(Math.max(0,latest-goal))} to go</div></div>
     <div class="track"><i style="width:${pct}%"></i></div>
     <div class="scale"><span>${fmtBW(start)}</span><span>${fmtBW(goal)} ${bwUnit()}</span></div>
     <canvas class="spark" id="spark"></canvas>
@@ -1171,6 +1257,7 @@ function appendTracker(){
   p.querySelector('#bwsave').onclick=()=>{
     const v=parseFloat(p.querySelector('#bwin').value);if(isNaN(v))return;
     const kg=bwFromDisp(v);const d=todayStr();const ex=bwLog.find(x=>x.d===d);if(ex)ex.kg=kg;else bwLog.push({d,kg});
+    bwLog.sort((a,b)=>a.d<b.d?-1:1);
     sset('fb_bw',bwLog);render();window.scrollTo(0,document.body.scrollHeight);
   };
 }
@@ -1178,10 +1265,10 @@ function drawSpark(){
   const c=document.getElementById('spark');if(!c)return;
   const dpr=Math.min(window.devicePixelRatio||1,2),W=c.clientWidth,H=c.clientHeight;
   c.width=W*dpr;c.height=H*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);
-  const pts=bwLog.slice(-12);
+  const pts=bwHist().slice(-12);
   if(pts.length<2){x.fillStyle='#98a2b2';x.font='12px sans-serif';x.textAlign='center';
     x.fillText('Log a couple of weigh-ins to see your trend',W/2,H/2);return;}
-  const goalD=bwToDisp(BW_GOAL),startD=bwToDisp(BW_START);
+  const goalD=bwToDisp(BW_GOAL),startD=bwToDisp(bwStart());
   const ks=pts.map(p=>bwToDisp(p.kg));const lo=Math.min(...ks,goalD)-.5,hi=Math.max(...ks,startD)+.5;
   const px=i=>10+i/(pts.length-1)*(W-20);const py=k=>H-8-(k-lo)/(hi-lo)*(H-22);
   x.strokeStyle='#2fae9c';x.setLineDash([4,4]);x.lineWidth=1;x.beginPath();x.moveTo(10,py(goalD));x.lineTo(W-10,py(goalD));x.stroke();x.setLineDash([]);
@@ -1223,31 +1310,87 @@ function drawWeightChart(canvas,pts,opts){
 /* per-exercise history modal */
 const histsheet=document.getElementById('histsheet');
 histsheet.onclick=ev=>{if(ev.target===histsheet)histsheet.style.display='none';};
-function openHistory(name){
-  const pts=histOf(name);const f=firstW(name),l=lastW(name),b=bestW(name);
+// shared by strength weights and cardio metrics; pts are already in display units
+function renderHistorySheet(cfg){
+  const pts=cfg.pts;
+  const f=pts.length?pts[0].val:null,l=pts.length?pts[pts.length-1].val:null;
+  const best=pts.length?Math.max(...pts.map(p=>p.val)):null;
   const delta=(f!=null&&l!=null)?l-f:0;
   const body=document.getElementById('histbody');
-  body.innerHTML=`<h3>${name}</h3><p class="hint">Every weight you log lives here. The goal is steady progress — small jumps over weeks add up.</p>
+  body.innerHTML=`<h3>${cfg.title}</h3><p class="hint">${cfg.hint}</p>
     <canvas id="histchart" style="width:100%;height:170px;display:block;margin:4px 0 14px"></canvas>
     <div class="hstats">
-      <div><span>First</span><b>${f!=null?fmtW(f)+' '+unit():'–'}</b></div>
-      <div><span>Latest</span><b>${l!=null?fmtW(l)+' '+unit():'–'}</b></div>
-      <div><span>Best</span><b>${b!=null?fmtW(b)+' '+unit():'–'}</b></div>
-      <div><span>Change</span><b style="color:${delta>0?'var(--teal)':delta<0?'var(--bad)':'var(--muted)'}">${delta>0?'+':''}${fmtW(delta)} ${unit()}</b></div>
+      <div><span>First</span><b>${f!=null?cfg.fmt(f)+' '+cfg.unit:'–'}</b></div>
+      <div><span>Latest</span><b>${l!=null?cfg.fmt(l)+' '+cfg.unit:'–'}</b></div>
+      <div><span>Best</span><b>${best!=null?cfg.fmt(best)+' '+cfg.unit:'–'}</b></div>
+      <div><span>Change</span><b style="color:${delta>0?'var(--teal)':delta<0?'var(--bad)':'var(--muted)'}">${delta>0?'+':''}${cfg.fmt(delta)} ${cfg.unit}</b></div>
     </div>
     <div class="hlist" id="hlist"></div>
     <button class="closebtn" id="closehist">Done</button>`;
   histsheet.style.display='flex';
-  drawWeightChart(document.getElementById('histchart'),dispPts(pts),{axis:true,unit:unit()});
+  drawWeightChart(document.getElementById('histchart'),pts.map(p=>({d:p.d,kg:p.val})),{axis:true,unit:cfg.unit,dp:cfg.dp});
   const list=document.getElementById('hlist');
-  if(!pts.length)list.innerHTML='<div class="empty">Log a weight on this exercise to start your history.</div>';
+  if(!pts.length)list.innerHTML=`<div class="empty">${cfg.empty}</div>`;
   else pts.slice().reverse().forEach(p=>{
     const r=document.createElement('div');r.className='hrow';
-    r.innerHTML=`<span class="hd">${fmtDate(p.d)}${p.d===todayStr()?' · today':''}</span><span class="hk">${fmtW(p.kg)} ${unit()}</span><button class="hx" aria-label="Delete">✕</button>`;
-    r.querySelector('.hx').onclick=()=>{delW(name,p.d);openHistory(name);render();};
+    r.innerHTML=`<span class="hd">${fmtDate(p.d)}${p.d===todayStr()?' · today':''}</span><span class="hk">${cfg.fmt(p.val)} ${cfg.unit}</span><button class="hx" aria-label="Delete">✕</button>`;
+    r.querySelector('.hx').onclick=()=>cfg.onDel(p.d);
     list.appendChild(r);
   });
   document.getElementById('closehist').onclick=()=>histsheet.style.display='none';
+}
+function openHistory(name){
+  renderHistorySheet({
+    title:name,
+    hint:'Every weight you log lives here. The goal is steady progress — small jumps over weeks add up.',
+    empty:'Log a weight on this exercise to start your history.',
+    pts:histOf(name).map(p=>({d:p.d,val:toDisp(p.kg)})),
+    fmt:v=>{const r=Math.round(v*10)/10;return r%1?r.toFixed(1):String(r);},
+    unit:unit(),
+    onDel:d=>{delW(name,d);openHistory(name);render();}});
+}
+
+/* body measurements sheet (hamburger menu) */
+const measuresheet=document.getElementById('measuresheet');
+measuresheet.onclick=ev=>{if(ev.target===measuresheet)measuresheet.style.display='none';};
+document.getElementById('hamburger').onclick=()=>openMeasures();
+function openMeasures(){
+  const h=measureHist();
+  const latest=h.length?h[h.length-1]:null, first=h.length?h[0]:null;
+  const body=document.getElementById('measurebody');
+  const statCells=MEASURES.map(([k,label])=>{
+    const lv=latest&&latest[k]!=null?latest[k]:null;
+    const fv=first&&first[k]!=null?first[k]:null;
+    const delta=(lv!=null&&fv!=null)?lv-fv:null;
+    return `<div><span>${label}</span><b>${lv!=null?lv.toFixed(2)+' in':'–'}</b>${delta!=null?`<div style="font-size:10px;margin-top:2px;color:${delta<=0?'var(--teal)':'var(--bad)'}">${delta>0?'+':''}${delta.toFixed(2)}</div>`:''}</div>`;
+  }).join('');
+  const inputRows=MEASURES.map(([k,label])=>{
+    const val=latest&&latest[k]!=null?latest[k]:'';
+    return `<div class="wbox"><label>${label}</label><input class="measurein" data-k="${k}" type="text" inputmode="decimal" placeholder="in" value="${val}"></div>`;
+  }).join('');
+  body.innerHTML=`<h3>Body Measurements</h3><p class="hint">Track how your measurements change over time (inches).</p>
+    <div class="hstats">${statCells}</div>
+    <div class="mgrid">${inputRows}</div>
+    <button class="btn primary" id="measuresave" style="width:100%">Log today's measurements</button>
+    <div class="hlist" id="measurelist" style="margin-top:16px"></div>
+    <button class="closebtn" id="closemeasure">Done</button>`;
+  measuresheet.style.display='flex';
+  body.querySelector('#measuresave').onclick=()=>{
+    const vals={};
+    body.querySelectorAll('.measurein').forEach(inp=>{const v=parseFloat(inp.value);if(!isNaN(v))vals[inp.dataset.k]=v;});
+    if(!Object.keys(vals).length)return;
+    logMeasure(vals);buzz(15);openMeasures();
+  };
+  const list=body.querySelector('#measurelist');
+  if(!h.length)list.innerHTML='<div class="empty">No measurements logged yet.</div>';
+  else h.slice().reverse().forEach(e=>{
+    const parts=MEASURES.filter(([k])=>e[k]!=null).map(([k,label])=>`${label} ${e[k]}`).join(' · ');
+    const r=document.createElement('div');r.className='hrow';
+    r.innerHTML=`<span class="hd">${fmtDate(e.d)}${e.d===todayStr()?' · today':''}<br><span style="font-size:11px">${parts}</span></span><button class="hx" aria-label="Delete">✕</button>`;
+    r.querySelector('.hx').onclick=()=>{delMeasure(e.d);openMeasures();};
+    list.appendChild(r);
+  });
+  body.querySelector('#closemeasure').onclick=()=>measuresheet.style.display='none';
 }
 
 /* ============================================================
@@ -1257,8 +1400,10 @@ const sheet=document.getElementById('sheet');
 document.getElementById('gear').onclick=()=>{sheet.style.display='flex';syncSettings();};
 document.getElementById('closesheet').onclick=()=>sheet.style.display='none';
 sheet.onclick=e=>{if(e.target===sheet)sheet.style.display='none';};
-function setGoalTag(){const g=document.getElementById('goaltag');if(g)g.textContent=fmtBW(BW_START)+'→'+fmtBW(BW_GOAL)+' '+bwUnit();}
+function setGoalTag(){const g=document.getElementById('goaltag');if(g)g.textContent=fmtBW(bwStart())+'→'+fmtBW(BW_GOAL)+' '+bwUnit();}
 function syncSettings(){document.getElementById('restval').textContent=settings.rest+'s';
+  document.getElementById('ageval').textContent=settings.age||30;
+  document.getElementById('hrnote').textContent='Sets your heart-rate zones · est. max '+hrMax()+' bpm';
   document.getElementById('soundtog').classList.toggle('on',settings.sound);
   document.querySelectorAll('#unitseg .useg').forEach(b=>b.classList.toggle('on',b.dataset.u===unit()));
   document.querySelectorAll('#bwunitseg .useg').forEach(b=>b.classList.toggle('on',b.dataset.u===bwUnit()));
@@ -1275,7 +1420,7 @@ document.querySelectorAll('#bwunitseg .useg').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('#distunitseg .useg').forEach(b=>b.onclick=()=>{
   settings.distUnits=b.dataset.u;sset('fb_set',settings);syncSettings();render();});
 // Backup / Restore
-function gatherData(){const {ghToken,ghRepo,...safe}=settings;return {app:'repboard',v:1,exHist,exNotes,bwLog,settings:safe,cardioBlocks,workoutDays,runLog};}
+function gatherData(){const {ghToken,ghRepo,...safe}=settings;return {app:'repboard',v:1,exHist,exNotes,bwLog,settings:safe,workoutDays,cardioHist,bodyMeasureLog};}
 document.getElementById('expbtn').onclick=()=>{
   const data=JSON.stringify(gatherData());
   const bb=document.getElementById('backupbox');
@@ -1299,17 +1444,18 @@ document.getElementById('applyimport').onclick=()=>{
     if(d.exNotes)exNotes=d.exNotes;
     if(d.bwLog)bwLog=d.bwLog;
     if(d.settings)settings=Object.assign(settings,d.settings);
-    if(d.cardioBlocks)cardioBlocks=d.cardioBlocks;
     if(d.workoutDays)workoutDays=d.workoutDays;
-    if(d.runLog)runLog=d.runLog;
+    if(d.cardioHist)cardioHist=d.cardioHist;
+    migrateRunLog(d.runLog);
+    if(d.bodyMeasureLog)bodyMeasureLog=d.bodyMeasureLog;
     sset('fb_exhist',exHist);sset('fb_exnotes',exNotes);sset('fb_bw',bwLog);sset('fb_set',settings);
-    sset('fb_wdays',workoutDays);sset('fb_runs',runLog);
-    for(const k in cardioBlocks)sset('fb_cardio_'+k,cardioBlocks[k]);
+    sset('fb_wdays',workoutDays);sset('fb_cardiohist',cardioHist);sset('fb_measure',bodyMeasureLog);
     document.getElementById('storemode').textContent='Restored ✓';
     sheet.style.display='none';render();
   }catch(e){document.getElementById('storemode').textContent='Could not read that backup — check the text';}
 };
 sheet.querySelectorAll('[data-rest]').forEach(b=>b.onclick=()=>{settings.rest=Math.max(15,Math.min(180,settings.rest+ +b.dataset.rest));sset('fb_set',settings);syncSettings();});
+sheet.querySelectorAll('[data-age]').forEach(b=>b.onclick=()=>{settings.age=Math.max(14,Math.min(90,(settings.age||30)+ +b.dataset.age));sset('fb_set',settings);syncSettings();render();});
 document.getElementById('soundtog').onclick=()=>{settings.sound=!settings.sound;sset('fb_set',settings);syncSettings();if(settings.sound)beep(880,.1);};
 document.getElementById('resetday').onclick=()=>{completion[curDay]={};sset(compKey(curDay),{});sheet.style.display='none';render();};
 
@@ -1323,21 +1469,24 @@ function mergeData(local,remote){
   if(!remote) return local;
   const eh={},names=new Set([...Object.keys(remote.exHist||{}),...Object.keys(local.exHist||{})]);
   names.forEach(n=>{eh[n]=mergeLog((local.exHist||{})[n],(remote.exHist||{})[n]);});
+  const ch={},cnames=new Set([...Object.keys(remote.cardioHist||{}),...Object.keys(local.cardioHist||{})]);
+  cnames.forEach(n=>{ch[n]=mergeLog((local.cardioHist||{})[n],(remote.cardioHist||{})[n]);});
   return {app:'repboard',v:1,
     exHist:eh,
     exNotes:Object.assign({},remote.exNotes||{},local.exNotes||{}),
     bwLog:mergeLog(local.bwLog,remote.bwLog),
-    runLog:mergeLog(local.runLog,remote.runLog),
+    cardioHist:ch,
+    bodyMeasureLog:mergeLog(local.bodyMeasureLog,remote.bodyMeasureLog),
     workoutDays:[...new Set([...(remote.workoutDays||[]),...(local.workoutDays||[])])].sort(),
-    cardioBlocks:Object.assign({},remote.cardioBlocks||{},local.cardioBlocks||{}),
     settings:Object.assign({},remote.settings||{},local.settings||{})};
 }
 function adoptData(d){
-  if(d.exHist)exHist=d.exHist; if(d.exNotes)exNotes=d.exNotes; if(d.bwLog)bwLog=d.bwLog; if(d.runLog)runLog=d.runLog;
-  if(d.workoutDays)workoutDays=d.workoutDays; if(d.cardioBlocks)cardioBlocks=d.cardioBlocks;
+  if(d.exHist)exHist=d.exHist; if(d.exNotes)exNotes=d.exNotes; if(d.bwLog)bwLog=d.bwLog;
+  if(d.cardioHist)cardioHist=d.cardioHist; if(d.bodyMeasureLog)bodyMeasureLog=d.bodyMeasureLog;
+  if(d.workoutDays)workoutDays=d.workoutDays;
   if(d.settings){const tok=settings.ghToken,rep=settings.ghRepo;settings=Object.assign(settings,d.settings);settings.ghToken=tok;settings.ghRepo=rep;}
-  sset('fb_exhist',exHist);sset('fb_exnotes',exNotes);sset('fb_bw',bwLog);sset('fb_runs',runLog);sset('fb_wdays',workoutDays);sset('fb_set',settings);
-  for(const k in cardioBlocks)sset('fb_cardio_'+k,cardioBlocks[k]);
+  sset('fb_exhist',exHist);sset('fb_exnotes',exNotes);sset('fb_bw',bwLog);sset('fb_wdays',workoutDays);sset('fb_set',settings);
+  sset('fb_cardiohist',cardioHist);sset('fb_measure',bodyMeasureLog);
 }
 async function syncToGitHub(){
   const repo=settings.ghRepo, token=settings.ghToken, stat=document.getElementById('ghstatus');
@@ -1352,6 +1501,7 @@ async function syncToGitHub(){
       if(res.ok){const j=await res.json();sha=j.sha;try{remote=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))));}catch(_){remote=null;}}
       else if(res.status===401||res.status===403){ if(stat)stat.textContent='Auth failed — check the token & its repo access'; return; }
       else if(res.status!==404){ throw new Error('GET '+res.status); }
+      if(remote)migrateRunLog(remote.runLog);
       const merged=mergeData(gatherData(),remote);
       const body=JSON.stringify(merged);
       if(remote && JSON.stringify(remote)===body){ adoptData(merged); if(stat)stat.textContent='Up to date ✓'; return; } // nothing changed — no rebuild needed
@@ -1375,10 +1525,12 @@ async function boot(){
   if(h)exHist=h;
   else{const oldw=await sget('fb_exw');if(oldw){const d=todayStr();for(const k in oldw)exHist[k]=[{d,kg:oldw[k]}];sset('fb_exhist',exHist);}}
   const nt=await sget('fb_exnotes');if(nt)exNotes=nt;
-  for(const d of ['tue','sun']){const cb=await sget('fb_cardio_'+d);if(cb&&cb.length)cardioBlocks[d]=cb;}
   const b=await sget('fb_bw');if(b&&b.length)bwLog=b;
   const wd=await sget('fb_wdays');if(wd&&wd.length)workoutDays=wd;
-  const rl=await sget('fb_runs');if(rl&&rl.length)runLog=rl;
+  const chh=await sget('fb_cardiohist');if(chh)cardioHist=chh;
+  const oldRuns=await sget('fb_runs');            // must come AFTER cardioHist loads
+  if(oldRuns&&oldRuns.length){migrateRunLog(oldRuns);sset('fb_runs',[]);}   // retire the key
+  const ml=await sget('fb_measure');if(ml&&ml.length)bodyMeasureLog=ml;
   // remove any future-dated entries left by the earlier UTC date bug
   workoutDays=workoutDays.filter(x=>parseD(x)<=parseD(todayStr()));
   // pull + merge from GitHub BEFORE seeding, so a fresh device adopts real history
@@ -1386,8 +1538,8 @@ async function boot(){
   if(settings.ghRepo && settings.ghToken){ try{ await syncToGitHub(); }catch(e){} }
   // seed only what's still empty after the merge
   if(!bwLog.length){bwLog=[{d:todayStr(),kg:BW_START}];sset('fb_bw',bwLog);}
-  if(!runLog.length){runLog=[{d:todayStr(),mi:0.73}];sset('fb_runs',runLog);}
   if(!workoutDays.length){workoutDays=[todayStr()];sset('fb_wdays',workoutDays);}
+  if(!bodyMeasureLog.length){bodyMeasureLog=[{d:'2026-07-10',navel:34.33,thigh:23.35,waist:35.04,arm:11.10}];sset('fb_measure',bodyMeasureLog);}
   const c=await sget(compKey(curDay));if(c)completion[curDay]=c;
   setGoalTag();render();
 }
@@ -1412,7 +1564,7 @@ window.addEventListener('resize', () => {
 // select-all) is left alone so replacing the whole number still works.
 document.addEventListener('focusin', e => {
   const t = e.target;
-  if (t.tagName !== 'INPUT' || t.getAttribute('inputmode') !== 'decimal') return;
+  if (t.tagName !== 'INPUT' || !['decimal','numeric'].includes(t.getAttribute('inputmode'))) return;
   setTimeout(() => {
     const v = t.value;
     if (!v || t.selectionStart !== t.selectionEnd) return;
