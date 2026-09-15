@@ -300,41 +300,41 @@ const yt = q => 'https://www.youtube.com/results?search_query='+encodeURICompone
 
 const PLAN = {
   mon:{type:'strength',title:'Strength A — Full Body',est:'~45 min',ex:[
-    {id:'a1',name:'Smith Machine Bench Press',sets:3,reps:'10',equip:'Smith machine · flat bench',pat:'bench',start:9.0718,
+    {id:'a1',name:'Smith Machine Bench Press',sets:3,reps:'10',rest:120,equip:'Smith machine · flat bench',pat:'bench',start:9.0718,
       cue:'Flat bench centred under the bar, feet planted. Grip a bit wider than your shoulders. Lower the bar to mid-chest with your elbows at about 45\u00b0 \u2014 not flared straight out \u2014 then press it back up. Set the safety stops just below chest height before your first rep.',q:'smith machine bench press form'},
-    {id:'a2',name:'Leg Press',sets:3,reps:'12',equip:'Leg press machine',pat:'legpress',start:31.751,
+    {id:'a2',name:'Leg Press',sets:3,reps:'12',rest:120,equip:'Leg press machine',pat:'legpress',start:31.751,
       cue:'Feet shoulder-width on the platform, back flat against the pad. Push the platform away until your legs are almost straight (don\u2019t lock), then bend your knees to bring it back under control.',q:'horizontal leg press machine how to'},
-    {id:'a3',name:'Seated Leg Curl',sets:3,reps:'12',equip:'Leg curl machine',pat:'legcurl',start:22.680,
+    {id:'a3',name:'Seated Leg Curl',sets:3,reps:'12',rest:60,equip:'Leg curl machine',pat:'legcurl',start:22.680,
       cue:'Pad on the back of your lower calves, back into the seat. Curl your heels down and under, squeeze the hamstrings, return slowly.',q:'seated leg curl machine how to'},
-    {id:'a4',name:'Seated Cable Row',sets:3,reps:'10',equip:'Cable · low pulley',pat:'rowH',start:4.5359,
+    {id:'a4',name:'Seated Cable Row',sets:3,reps:'10',rest:120,equip:'Cable · low pulley',pat:'rowH',start:4.5359,
       cue:'Pull the handle to your stomach, squeeze shoulder blades together, then let it back out slowly.',q:'seated cable row form'},
-    {id:'a5',name:'Seated Dumbbell Curl',sets:3,reps:'12',equip:'Bench · Dumbbells',pat:'curl',start:4.5359,
+    {id:'a5',name:'Seated Dumbbell Curl',sets:3,reps:'12',rest:60,equip:'Bench · Dumbbells',pat:'curl',start:4.5359,
       cue:'Sit tall on the bench, a dumbbell in each hand, arms hanging. Keeping your elbows pinned to your sides, curl both weights up to your shoulders, squeeze, then lower all the way down slowly.',q:'seated dumbbell biceps curl form'},
   ]},
   wed:{type:'strength',title:'Strength B — Full Body',est:'~45 min',ex:[
-    {id:'b1',name:'Seated Leg Extension',sets:3,reps:'12',equip:'Leg extension machine',pat:'legext',
+    {id:'b1',name:'Seated Leg Extension',sets:3,reps:'12',rest:60,equip:'Leg extension machine',pat:'legext',
       cue:'Pad on the front of your ankles, back into the seat. Straighten your knees to lift, squeeze your quads at the top, lower slowly.',q:'leg extension machine how to'},
-    {id:'b2',name:'Smith Machine Squat',sets:3,reps:'10',equip:'Smith machine',pat:'smith',
+    {id:'b2',name:'Smith Machine Squat',sets:3,reps:'10',rest:120,equip:'Smith machine',pat:'smith',
       cue:'Bar on upper back, feet slightly forward. Twist to unrack, squat, drive up. Set safety stops below your bottom.',q:'smith machine squat for beginners'},
-    {id:'b3',name:'Dumbbell Shoulder Press',sets:3,reps:'10',equip:'Bench · Dumbbells',pat:'press',
+    {id:'b3',name:'Dumbbell Shoulder Press',sets:3,reps:'10',rest:120,equip:'Bench · Dumbbells',pat:'press',
       cue:'Seated, backrest upright, weights at shoulders. Press overhead, lower with control.',q:'seated dumbbell shoulder press'},
-    {id:'b4',name:'Lat Pulldown',sets:3,reps:'12',equip:'Cable · high pulley',pat:'pulldown',
+    {id:'b4',name:'Lat Pulldown',sets:3,reps:'12',rest:120,equip:'Cable · high pulley',pat:'pulldown',
       cue:'Pull the bar to your upper chest, leading with elbows, squeeze, control back up.',q:'lat pulldown form'},
-    {id:'b6',name:'Smith Machine Close-Grip Bench Press',sets:3,reps:'10',equip:'Smith machine · flat bench',pat:'bench',start:4.5359,
+    {id:'b6',name:'Smith Machine Close-Grip Bench Press',sets:3,reps:'10',rest:120,equip:'Smith machine · flat bench',pat:'bench',start:4.5359,
       cue:'Same setup as a normal bench press, but grip the bar about shoulder-width \u2014 hands just inside where you\u2019d normally hold it. Keep your elbows tucked close to your ribs on the way down. This is still a chest press, it just makes the triceps do a much bigger share of the work. Go lighter than your flat bench.',q:'close grip bench press form'},
-    {id:'b5',name:'Pallof Press',sets:3,reps:'10 / side',equip:'Cable · chest height',pat:'pallof',
+    {id:'b5',name:'Pallof Press',sets:3,reps:'10 / side',rest:60,equip:'Cable · chest height',pat:'pallof',
       cue:'Side-on to the cable, handle at chest. Press straight out and resist the twist. Slow.',q:'pallof press'},
   ]},
   sat:{type:'strength',title:'Strength C — Full Body',est:'~50 min',ex:[
-    {id:'c1',name:'Smith Machine Deadlift',sets:3,reps:'8–10',equip:'Smith machine',pat:'smithdl',
+    {id:'c1',name:'Smith Machine Deadlift',sets:3,reps:'8–10',rest:120,equip:'Smith machine',pat:'smithdl',
       cue:'Bar on the rails over mid-foot. Flat back, push your hips back and slide the bar down your legs to mid-shin, then drive hips forward to stand tall. Keep a soft knee.',q:'smith machine romanian deadlift form'},
-    {id:'c2',name:'Smith Machine Incline Bench Press',sets:3,reps:'10',equip:'Smith machine · incline bench',pat:'incline',
+    {id:'c2',name:'Smith Machine Incline Bench Press',sets:3,reps:'10',rest:120,equip:'Smith machine · incline bench',pat:'incline',
       cue:'Set an incline bench under the bar. Lower the bar to your upper chest, elbows ~45°, then press straight up. Twist to rack at the end.',q:'smith machine incline bench press'},
-    {id:'c3',name:'Smith Machine Row',sets:3,reps:'10',equip:'Smith machine',pat:'smithrow',
+    {id:'c3',name:'Smith Machine Row',sets:3,reps:'10',rest:120,equip:'Smith machine',pat:'smithrow',
       cue:'Hinge forward to ~45°, flat back, bar hanging. Pull the bar to your lower ribs, squeeze your shoulder blades, lower under control.',q:'smith machine bent over row form'},
-    {id:'c4',name:'Smith Machine Shoulder Press',sets:3,reps:'10',equip:'Smith machine',pat:'smithpress',
+    {id:'c4',name:'Smith Machine Shoulder Press',sets:3,reps:'10',rest:120,equip:'Smith machine',pat:'smithpress',
       cue:'Bar set at shoulder height, grip just outside your shoulders. Press straight overhead until your arms extend, then lower under control to the top of your chest. Keep your ribs down, don\u2019t arch.',q:'smith machine shoulder press form'},
-    {id:'c5',name:'Dumbbell Lateral Raise',sets:3,reps:'15',equip:'Dumbbells',pat:'press',start:2.2680,
+    {id:'c5',name:'Dumbbell Lateral Raise',sets:3,reps:'15',rest:60,equip:'Dumbbells',pat:'press',start:2.2680,
       cue:'Stand tall, a light dumbbell in each hand, slight bend in the elbows. Raise your arms out to the sides until they reach shoulder height \u2014 no higher \u2014 then lower slowly. Go much lighter than feels right: if you\u2019re swinging or shrugging to get them up, drop the weight.',q:'dumbbell lateral raise form'},
   ]},
   tue:{type:'cardio',title:'Steady-State Cardio',mode:'steady',intensity:'Easy · talk test',hr:[.67,.75],
@@ -916,7 +916,7 @@ function renderStrength(plan){
         const a=arr[e.id]=arr[e.id]||Array(e.sets).fill(false);
         a[i]=!a[i];b.classList.toggle('on',a[i]);
         sset(compKey(curDay),completion[curDay]);
-        if(a[i]){buzz(20); markToday(); if(i<e.sets-1) startRest(settings.rest,'Rest · '+e.name);}
+        if(a[i]){buzz(20); markToday(); if(i<e.sets-1) startRest(e.rest||settings.rest,'Rest · '+e.name);}
         updateProgress(plan);refreshCardDone(card,e);
       };
       row.appendChild(b);
