@@ -300,8 +300,8 @@ const yt = q => 'https://www.youtube.com/results?search_query='+encodeURICompone
 
 const PLAN = {
   mon:{type:'strength',title:'Strength A — Full Body',est:'~45 min',ex:[
-    {id:'a1',name:'Goblet Squat',sets:3,reps:'10',equip:'Kettlebell',pat:'squat',start:9.0718,
-      cue:'Hold the weight at your chest. Sit down and back like into a chair, chest up, knees over toes, then stand.',q:'goblet squat form beginner'},
+    {id:'a1',name:'Smith Machine Bench Press',sets:3,reps:'10',equip:'Smith machine · flat bench',pat:'bench',start:9.0718,
+      cue:'Flat bench centred under the bar, feet planted. Grip a bit wider than your shoulders. Lower the bar to mid-chest with your elbows at about 45\u00b0 \u2014 not flared straight out \u2014 then press it back up. Set the safety stops just below chest height before your first rep.',q:'smith machine bench press form'},
     {id:'a2',name:'Leg Press',sets:3,reps:'12',equip:'Leg press machine',pat:'legpress',start:31.751,
       cue:'Feet shoulder-width on the platform, back flat against the pad. Push the platform away until your legs are almost straight (don\u2019t lock), then bend your knees to bring it back under control.',q:'horizontal leg press machine how to'},
     {id:'a3',name:'Seated Leg Curl',sets:3,reps:'12',equip:'Leg curl machine',pat:'legcurl',start:22.680,
@@ -320,6 +320,8 @@ const PLAN = {
       cue:'Seated, backrest upright, weights at shoulders. Press overhead, lower with control.',q:'seated dumbbell shoulder press'},
     {id:'b4',name:'Lat Pulldown',sets:3,reps:'12',equip:'Cable · high pulley',pat:'pulldown',
       cue:'Pull the bar to your upper chest, leading with elbows, squeeze, control back up.',q:'lat pulldown form'},
+    {id:'b6',name:'Smith Machine Close-Grip Bench Press',sets:3,reps:'10',equip:'Smith machine · flat bench',pat:'bench',start:4.5359,
+      cue:'Same setup as a normal bench press, but grip the bar about shoulder-width \u2014 hands just inside where you\u2019d normally hold it. Keep your elbows tucked close to your ribs on the way down. This is still a chest press, it just makes the triceps do a much bigger share of the work. Go lighter than your flat bench.',q:'close grip bench press form'},
     {id:'b5',name:'Pallof Press',sets:3,reps:'10 / side',equip:'Cable · chest height',pat:'pallof',
       cue:'Side-on to the cable, handle at chest. Press straight out and resist the twist. Slow.',q:'pallof press'},
   ]},
@@ -332,8 +334,8 @@ const PLAN = {
       cue:'Hinge forward to ~45°, flat back, bar hanging. Pull the bar to your lower ribs, squeeze your shoulder blades, lower under control.',q:'smith machine bent over row form'},
     {id:'c4',name:'Smith Machine Shoulder Press',sets:3,reps:'10',equip:'Smith machine',pat:'smithpress',
       cue:'Bar set at shoulder height, grip just outside your shoulders. Press straight overhead until your arms extend, then lower under control to the top of your chest. Keep your ribs down, don\u2019t arch.',q:'smith machine shoulder press form'},
-    {id:'c5',name:'Smith Machine Calf Raise',sets:3,reps:'15',equip:'Smith machine',pat:'calf',
-      cue:'Bar on your upper back, balls of your feet on the floor or a small plate. Rise onto your toes as high as you can, pause, lower slowly for a full stretch.',q:'smith machine calf raise'},
+    {id:'c5',name:'Dumbbell Lateral Raise',sets:3,reps:'15',equip:'Dumbbells',pat:'press',start:2.2680,
+      cue:'Stand tall, a light dumbbell in each hand, slight bend in the elbows. Raise your arms out to the sides until they reach shoulder height \u2014 no higher \u2014 then lower slowly. Go much lighter than feels right: if you\u2019re swinging or shrugging to get them up, drop the weight.',q:'dumbbell lateral raise form'},
   ]},
   tue:{type:'cardio',title:'Steady-State Cardio',mode:'steady',intensity:'Easy · talk test',hr:[.67,.75],
     note:'Zone 2: you should be able to hold a full conversation the whole way. If you can’t, slow down — going harder here does not burn more fat, it just costs you Wednesday’s lifts. Four machines spreads the joint load and keeps it bearable. This session is where most of your weekly aerobic volume should come from. The talk test beats the watch: if the number says you’re in range but you can’t speak a full sentence, believe your lungs.',
