@@ -300,46 +300,40 @@ const yt = q => 'https://www.youtube.com/results?search_query='+encodeURICompone
 
 const PLAN = {
   mon:{type:'strength',title:'Strength A — Full Body',est:'~45 min',ex:[
-    {id:'a1',name:'Leg Press',sets:3,reps:'10–12',rest:120,equip:'Leg press machine',pat:'legpress',start:31.751,
+    {id:'a1',name:'Goblet Squat',sets:3,reps:'10',equip:'Kettlebell',pat:'squat',start:9.0718,
+      cue:'Hold the weight at your chest. Sit down and back like into a chair, chest up, knees over toes, then stand.',q:'goblet squat form beginner'},
+    {id:'a2',name:'Leg Press',sets:3,reps:'12',equip:'Leg press machine',pat:'legpress',start:31.751,
       cue:'Feet shoulder-width on the platform, back flat against the pad. Push the platform away until your legs are almost straight (don\u2019t lock), then bend your knees to bring it back under control.',q:'horizontal leg press machine how to'},
-    {id:'a2',name:'Machine Chest Press',sets:3,reps:'10',rest:90,equip:'Chest press machine',pat:'bench',start:20.412,
-      cue:'Seat height so the handles sit at mid-chest, not at your neck. Press straight out until your arms are almost locked, then let the handles come back until you feel a stretch across your chest. Keep your shoulder blades pinned back into the pad the whole time.',q:'seated chest press machine proper form'},
-    {id:'a3',name:'Seated Cable Row',sets:3,reps:'10',rest:90,equip:'Cable · low pulley',pat:'rowH',start:4.5359,
-      cue:'Pull the handle to your stomach, squeeze shoulder blades together, then let it back out slowly.',q:'seated cable row form'},
-    {id:'a4',name:'Seated Leg Curl',sets:3,reps:'12',rest:60,equip:'Leg curl machine',pat:'legcurl',start:22.680,
+    {id:'a3',name:'Seated Leg Curl',sets:3,reps:'12',equip:'Leg curl machine',pat:'legcurl',start:22.680,
       cue:'Pad on the back of your lower calves, back into the seat. Curl your heels down and under, squeeze the hamstrings, return slowly.',q:'seated leg curl machine how to'},
-    {id:'a5',name:'Dumbbell Shoulder Press',sets:3,reps:'10',rest:90,equip:'Bench · Dumbbells',pat:'press',start:4.5359,
-      cue:'Seated, backrest upright, weights at shoulders. Press overhead, lower with control. Keep your ribs down — don\u2019t arch your lower back to get the weight up.',q:'seated dumbbell shoulder press'},
-    {id:'a6',name:'Seated Dumbbell Curl',sets:3,reps:'12',rest:60,equip:'Bench · Dumbbells',pat:'curl',start:4.5359,
+    {id:'a4',name:'Seated Cable Row',sets:3,reps:'10',equip:'Cable · low pulley',pat:'rowH',start:4.5359,
+      cue:'Pull the handle to your stomach, squeeze shoulder blades together, then let it back out slowly.',q:'seated cable row form'},
+    {id:'a5',name:'Seated Dumbbell Curl',sets:3,reps:'12',equip:'Bench · Dumbbells',pat:'curl',start:4.5359,
       cue:'Sit tall on the bench, a dumbbell in each hand, arms hanging. Keeping your elbows pinned to your sides, curl both weights up to your shoulders, squeeze, then lower all the way down slowly.',q:'seated dumbbell biceps curl form'},
   ]},
   wed:{type:'strength',title:'Strength B — Full Body',est:'~45 min',ex:[
-    {id:'b1',name:'Goblet Squat',sets:3,reps:'10',rest:120,equip:'Kettlebell',pat:'squat',start:9.0718,
-      cue:'Hold the weight at your chest. Sit down and back like into a chair, chest up, knees over toes, then stand.',q:'goblet squat form beginner'},
-    {id:'b2',name:'Lat Pulldown',sets:3,reps:'12',rest:90,equip:'Cable · high pulley',pat:'pulldown',start:18.144,
-      cue:'Pull the bar to your upper chest, leading with elbows, squeeze, control back up.',q:'lat pulldown form'},
-    {id:'b3',name:'Incline Dumbbell Press',sets:3,reps:'10',rest:90,equip:'Incline bench · Dumbbells',pat:'incline',start:4.5359,
-      cue:'Bench set to about 30° — steeper than that and it becomes a shoulder press. Start with the dumbbells at the outside of your upper chest, press up and slightly together, then lower slowly until you feel the stretch.',q:'incline dumbbell press proper form'},
-    {id:'b4',name:'Seated Leg Extension',sets:3,reps:'12',rest:60,equip:'Leg extension machine',pat:'legext',start:22.680,
+    {id:'b1',name:'Seated Leg Extension',sets:3,reps:'12',equip:'Leg extension machine',pat:'legext',
       cue:'Pad on the front of your ankles, back into the seat. Straighten your knees to lift, squeeze your quads at the top, lower slowly.',q:'leg extension machine how to'},
-    {id:'b5',name:'Cable Triceps Pushdown',sets:3,reps:'12',rest:60,equip:'Cable · high pulley',pat:'pulldown',start:9.0718,
-      cue:'Elbows pinned to your sides and stationary — only your forearms move. Push the bar down until your arms are straight, squeeze, then let it rise to about chest height. If your elbows drift forward, the weight is too heavy.',q:'cable triceps pushdown form'},
-    {id:'b6',name:'Pallof Press',sets:2,reps:'10 / side',rest:60,equip:'Cable · chest height',pat:'pallof',start:20.412,
+    {id:'b2',name:'Smith Machine Squat',sets:3,reps:'10',equip:'Smith machine',pat:'smith',
+      cue:'Bar on upper back, feet slightly forward. Twist to unrack, squat, drive up. Set safety stops below your bottom.',q:'smith machine squat for beginners'},
+    {id:'b3',name:'Dumbbell Shoulder Press',sets:3,reps:'10',equip:'Bench · Dumbbells',pat:'press',
+      cue:'Seated, backrest upright, weights at shoulders. Press overhead, lower with control.',q:'seated dumbbell shoulder press'},
+    {id:'b4',name:'Lat Pulldown',sets:3,reps:'12',equip:'Cable · high pulley',pat:'pulldown',
+      cue:'Pull the bar to your upper chest, leading with elbows, squeeze, control back up.',q:'lat pulldown form'},
+    {id:'b5',name:'Pallof Press',sets:3,reps:'10 / side',equip:'Cable · chest height',pat:'pallof',
       cue:'Side-on to the cable, handle at chest. Press straight out and resist the twist. Slow.',q:'pallof press'},
   ]},
-  sat:{type:'strength',title:'Strength C — Full Body',est:'~45 min',ex:[
-    {id:'c1',name:'Dumbbell Romanian Deadlift',sets:3,reps:'10',rest:120,equip:'Dumbbells',pat:'hinge',start:9.0718,
-      cue:'Dumbbells in front of your thighs, soft knees. Push your hips back and let the weights slide down your legs to about mid-shin — your back stays flat and your knees barely move. You should feel this stretch in your hamstrings, not your lower back. Drive your hips forward to stand tall.',q:'dumbbell romanian deadlift form'},
-    {id:'c2',name:'Cable Chest Fly',sets:3,reps:'12',rest:60,equip:'Cable · chest height',pat:'pushstand',start:6.8039,
-      cue:'Handles set at chest height, one foot forward for balance. Soft bend in the elbows, then bring your hands together in front of your chest like you\u2019re hugging a barrel. Squeeze for a beat, then open slowly until you feel the stretch.',q:'cable chest fly proper form'},
-    {id:'c3',name:'One-Arm Dumbbell Row',sets:3,reps:'10 / side',rest:90,equip:'Bench · Dumbbell',pat:'rowH',start:11.340,
-      cue:'One knee and one hand on the bench, back flat and parallel to the floor. Let the dumbbell hang, then pull it to your hip — not your shoulder — leading with the elbow. Lower it all the way down under control.',q:'one arm dumbbell row form'},
-    {id:'c4',name:'Cable Lateral Raise',sets:3,reps:'15',rest:60,equip:'Cable · low pulley',pat:'press',start:2.2680,
-      cue:'Cable at the lowest setting, handle in the hand furthest from the machine. Raise your arm out to the side to shoulder height, no higher, with a slight bend in the elbow. Go light — this one is about the burn, not the load.',q:'cable lateral raise form'},
-    {id:'c5',name:'Cable Triceps Pushdown',sets:2,reps:'12',rest:60,equip:'Cable · high pulley',pat:'pulldown',start:9.0718,
-      cue:'Elbows pinned to your sides and stationary — only your forearms move. Push the bar down until your arms are straight, squeeze, then let it rise to about chest height.',q:'cable triceps pushdown form'},
-    {id:'c6',name:'Standing Calf Raise',sets:2,reps:'15',rest:60,equip:'Dumbbells · step',pat:'calf',start:11.340,
-      cue:'Balls of your feet on a step or small plate, heels hanging off. Rise as high onto your toes as you can, pause at the top for a beat, then lower slowly until you feel a full stretch in the calf.',q:'standing calf raise dumbbell form'},
+  sat:{type:'strength',title:'Strength C — Full Body',est:'~50 min',ex:[
+    {id:'c1',name:'Smith Machine Deadlift',sets:3,reps:'8–10',equip:'Smith machine',pat:'smithdl',
+      cue:'Bar on the rails over mid-foot. Flat back, push your hips back and slide the bar down your legs to mid-shin, then drive hips forward to stand tall. Keep a soft knee.',q:'smith machine romanian deadlift form'},
+    {id:'c2',name:'Smith Machine Incline Bench Press',sets:3,reps:'10',equip:'Smith machine · incline bench',pat:'incline',
+      cue:'Set an incline bench under the bar. Lower the bar to your upper chest, elbows ~45°, then press straight up. Twist to rack at the end.',q:'smith machine incline bench press'},
+    {id:'c3',name:'Smith Machine Row',sets:3,reps:'10',equip:'Smith machine',pat:'smithrow',
+      cue:'Hinge forward to ~45°, flat back, bar hanging. Pull the bar to your lower ribs, squeeze your shoulder blades, lower under control.',q:'smith machine bent over row form'},
+    {id:'c4',name:'Smith Machine Shoulder Press',sets:3,reps:'10',equip:'Smith machine',pat:'smithpress',
+      cue:'Bar set at shoulder height, grip just outside your shoulders. Press straight overhead until your arms extend, then lower under control to the top of your chest. Keep your ribs down, don\u2019t arch.',q:'smith machine shoulder press form'},
+    {id:'c5',name:'Smith Machine Calf Raise',sets:3,reps:'15',equip:'Smith machine',pat:'calf',
+      cue:'Bar on your upper back, balls of your feet on the floor or a small plate. Rise onto your toes as high as you can, pause, lower slowly for a full stretch.',q:'smith machine calf raise'},
   ]},
   tue:{type:'cardio',title:'Steady-State Cardio',mode:'steady',intensity:'Easy · talk test',hr:[.67,.75],
     note:'Zone 2: you should be able to hold a full conversation the whole way. If you can’t, slow down — going harder here does not burn more fat, it just costs you Wednesday’s lifts. Four machines spreads the joint load and keeps it bearable. This session is where most of your weekly aerobic volume should come from. The talk test beats the watch: if the number says you’re in range but you can’t speak a full sentence, believe your lungs.',
@@ -920,7 +914,7 @@ function renderStrength(plan){
         const a=arr[e.id]=arr[e.id]||Array(e.sets).fill(false);
         a[i]=!a[i];b.classList.toggle('on',a[i]);
         sset(compKey(curDay),completion[curDay]);
-        if(a[i]){buzz(20); markToday(); if(i<e.sets-1) startRest(e.rest||settings.rest,'Rest · '+e.name);}
+        if(a[i]){buzz(20); markToday(); if(i<e.sets-1) startRest(settings.rest,'Rest · '+e.name);}
         updateProgress(plan);refreshCardDone(card,e);
       };
       row.appendChild(b);
